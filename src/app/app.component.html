@@ -1,0 +1,62 @@
+<mat-toolbar class="custom-toolbar">
+  <img src="/assets/logo.png" alt="logoicon" class="logoIcon">
+
+  <span class="website-name">Empresa</span>
+
+  <div class="buttons-container">
+    <button mat-button [matMenuTriggerFor]="menuCliente" style="color: rgb(255,255,255)">
+      <mat-icon>healing</mat-icon> Cliente
+    </button>
+    <button mat-button [matMenuTriggerFor]="menuCobranza" style="color: rgb(255,255,255)">
+      <mat-icon>medication</mat-icon> Cobranza
+    </button>
+    <button mat-button [matMenuTriggerFor]="menuMueble" style="color: rgb(255,255,255)">
+      <mat-icon>restaurant</mat-icon> Mueble
+    </button>
+    <button mat-button [matMenuTriggerFor]="menuServicio" style="color: rgb(255,255,255)">
+      <mat-icon>people</mat-icon> Servicio
+    </button>
+  </div>
+</mat-toolbar>
+
+
+
+<!-- Menús no requieren cambios adicionales -->
+<mat-menu #menuCliente="matMenu">
+  <button mat-menu-item routerLink="/cliente" style="color: black;">Listar</button>
+  <button mat-menu-item routerLink="/cliente/edicionescliente" style="color: black;">Registrar</button>
+</mat-menu>
+
+<mat-menu #menuCobranza="matMenu">
+  <button mat-menu-item routerLink="/cobranza" style="color: black;">Listar</button>
+  <button mat-menu-item routerLink="/cobranza/edicionescobranza" style="color: black;">Registrar</button>
+</mat-menu>
+
+<mat-menu #menuMueble="matMenu">
+  <button mat-menu-item routerLink="/mueble" style="color: black;">Listar</button>
+  <button mat-menu-item routerLink="/mueble/edicionesmueble" style="color: black;">Registrar</button>
+</mat-menu>
+
+<mat-menu #menuServicio="matMenu">
+  <button mat-menu-item routerLink="/servicio" style="color: black;">Listar</button>
+  <button mat-menu-item routerLink="/servicio/nuevoservicio" style="color: black;">Registrar</button>
+</mat-menu>
+
+<!---
+<mat-menu #menuUsers="matMenu">
+  <button mat-menu-item routerLink="/usuarios">Listar</button>
+  <button mat-menu-item routerLink="/usuarios/edicionesusuarios">Registrar</button>
+</mat-menu>
+
+<mat-menu #menuSalir="matMenu">
+  <button mat-menu-item routerLink="/login" (click)="cerrar()">
+    <mat-icon>logout</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+  <button mat-menu-item>
+    Rol:
+    <span>{{ role }}</span>
+  </button>
+</mat-menu> -->
+
+<router-outlet></router-outlet>

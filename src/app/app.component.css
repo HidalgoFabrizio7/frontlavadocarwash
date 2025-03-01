@@ -1,0 +1,56 @@
+mat-toolbar {
+  background-color: rgb(67, 160, 71);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  height: 80px;
+  gap: 20px;
+  border-radius: 15px;
+  margin: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  width: calc(100% - 20px);
+}
+
+
+/* Ajustar el logo */
+.logoIcon {
+  height: 50px;
+  border-radius: 10px;
+}
+
+/* Nombre de la empresa  */
+.website-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Contenedor de los botones para distribuir mejor */
+.buttons-container {
+  display: flex;
+  gap: 15px;
+}
+
+/* Estilo de los botones */
+button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 8px;
+  padding: 8px 15px;
+  transition: background 0.3s ease;
+}
+
+/* Cambio de color al pasar el mouse */
+button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+mat-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+
+

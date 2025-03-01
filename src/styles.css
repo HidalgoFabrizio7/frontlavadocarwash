@@ -1,0 +1,27 @@
+body, html {
+  background-color: #93d893;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.container {
+  background-color: #f4f4f4;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+}
+
+/* Estilo del título dentro del contenedor */
+.title-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

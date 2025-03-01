@@ -1,0 +1,60 @@
+<div class="title-container">
+    <h2 class="title">Registro de cliente</h2>
+  </div>
+  <div class="title-container">
+    <form [formGroup]="form" (submit)="aceptar()" class="example-form">
+      <mat-form-field class="example-full-width"  *ngIf="edicion" >
+        <mat-label>Codigo</mat-label>
+        <input matInput placeholder="codigo" formControlName="codigo" />      
+      </mat-form-field>
+      <br/>
+      <mat-form-field class="example-full-width">
+        <mat-label>Nombre de cliente</mat-label>
+        <input matInput placeholder="Extensión ha" formControlName="nombre" />
+        <mat-error *ngIf="form.get('nombre')?.hasError('required')"
+          >El nombre del cliente es obligatorio</mat-error
+        >
+      </mat-form-field>
+      <br/>
+      <br/>
+      <mat-form-field class="example-full-width">
+        <mat-label>Apellido de cliente</mat-label>
+        <input matInput placeholder="Extensión ha" formControlName="apellido" />
+        <mat-error *ngIf="form.get('apellido')?.hasError('required')"
+          >El nombre del cliente es obligatorio</mat-error
+        >
+      </mat-form-field>
+      <br/>
+      <br/>
+      <mat-form-field class="example-full-width">
+        <mat-label>Número de cliente</mat-label>
+        <input matInput placeholder="Extensión ha" formControlName="numero" />
+        <mat-error *ngIf="form.get('numero')?.hasError('required')"
+          >El nombre del cliente es obligatorio</mat-error
+        >
+      </mat-form-field>
+      <br/>
+      <br/>
+      <mat-form-field class="example-full-width">
+        <mat-label>Dni de cliente</mat-label>
+        <input matInput placeholder="Extensión ha" formControlName="dni" />
+        <mat-error *ngIf="form.get('dni')?.hasError('required')"
+          >El nombre del cliente es obligatorio</mat-error
+        >
+      </mat-form-field>
+      <br/>
+      <br/>
+      <mat-form-field class="example-full-width">
+        <mat-label>Dirección de cliente</mat-label>
+        <input matInput placeholder="Extensión ha" formControlName="direccion" />
+        <mat-error *ngIf="form.get('direccion')?.hasError('required')"
+          >La dirección del cliente es obligatorio</mat-error
+        >
+      </mat-form-field>
+      <br/>
+      <button mat-raised-button color="primary">Aceptar</button>
+      <button mat-raised-button color="warn" routerLink="/cliente"><mat-icon> cancel_presentation</mat-icon>
+      </button>
+    </form>
+  </div>
+
