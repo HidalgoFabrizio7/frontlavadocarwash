@@ -65,18 +65,25 @@ export class RegistrarservicioComponent implements OnInit{
       tiposervicio: ['', Validators.required],
       fechaenvio: ['', Validators.required],
       fecharecojo: ['', Validators.required],
+      fotoNoObligatoriaServicio: [''],
+      fotoAntesServicio: [''],
+      fotoDespuesServicio: ['']
     });
     this.cliS.list().subscribe((data) => {
       this.listaClientes = data;
     });
   }
+
   aceptar(): void {
     if (this.form.valid) {
       this.servicio.idServicio = this.form.value.codigo;
-      this.servicio.cliente.nombreCliente = this.form.value.cliente;
+      this.servicio.cliente.idClientes = this.form.value.cliente;
       this.servicio.tipoDeServicio = this.form.value.tiposervicio;
       this.servicio.fechaEnvioServicio = this.form.value.fechaenvio;
       this.servicio.fechaRecojoServicio = this.form.value.fecharecojo;
+      this.servicio.fotoNoObligatoriaServicio = this.form.value.fotoNoObligatoriaServicio;
+      this.servicio.fotoAntesServicio = this.form.value.fotoAntesServicio;
+      this.servicio.fotoDespuesServicio = this.form.value.fotoDespuesServicio;
       this.serS.insertar(this.servicio).subscribe((data) => {
         this.serS.list().subscribe((data) => {
           this.serS.setList(data);
@@ -91,10 +98,13 @@ export class RegistrarservicioComponent implements OnInit{
       this.serS.listId(this.id).subscribe((data) => {
         this.form = new FormGroup({
           codigo: new FormControl(data.idServicio),
-          cliente: new FormControl(data.cliente.nombreCliente),
+          cliente: new FormControl(data.cliente.idClientes),
           tiposervicio: new FormControl(data.tipoDeServicio),
           fechaenvio: new FormControl(data.fechaEnvioServicio),
           fecharecojo: new FormControl(data.fechaRecojoServicio),
+          fotoNoObligatoriaServicio: new FormControl(data.fotoNoObligatoriaServicio),
+          fotoAntesServicio: new FormControl(data.fotoAntesServicio),
+          fotoDespuesServicio: new FormControl(data.fotoDespuesServicio)
         });
       });
     }
