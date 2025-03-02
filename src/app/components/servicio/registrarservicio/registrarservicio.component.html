@@ -1,80 +1,105 @@
 <div class="title-container">
     <h2 class="title">Registro de servicio</h2>
 </div>
-<div class="title-container">
+<div class="form-container">
     <form [formGroup]="form" (submit)="aceptar()" class="example-form">
-        <mat-form-field class="example-full-width" *ngIf="edicion">
-            <mat-label>Codigo</mat-label>
-            <input matInput placeholder="codigo" formControlName="codigo" />
-        </mat-form-field>
-        <br />
-        <mat-form-field class="example-full-width">
+        <div class="form-group" *ngIf="edicion">
+            <mat-form-field class="example-full-width">
+                <mat-label>Codigo</mat-label>
+                <input matInput placeholder="Ingrese código" formControlName="codigo" />
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width">
             <mat-label>Cliente</mat-label>
-            <mat-select formControlName="cliente">
-                <mat-option *ngFor="let c of listaClientes" [value]="c.idClientes">
-                    {{ c.nombreCliente }}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.get('cliente')?.hasError('required')">El registro del cliente es obligatorio.</mat-error>
-        </mat-form-field>
-        <br />
-        <mat-form-field class="example-full-width">
-            <mat-label>Tipo de servicio</mat-label>
-            <mat-select formControlName="tiposervicio">
-                <mat-option *ngFor="let g of tiposervicio" [value]="g.value">
-                    {{ g.viewValue }}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.get('tiposervicio')?.hasError('required')">El tipo de servicio es obligatorio.</mat-error>
-        </mat-form-field>
-        <br />
-        <mat-form-field appearance="fill" class="example-full-width">
-            <mat-label>Fecha de programación de envio</mat-label>
-            <input
-                matInput
-                placeholder="Ingrese fecha"
-                [matDatepicker]="pickerEnvio"
-                formControlName="fechaenvio"
-                [max]="maxFecha"
+            <input 
+              type="text"
+              placeholder="Seleccione un cliente"
+              aria-label="Cliente"
+              matInput
+              formControlName="cliente"
+              [matAutocomplete]="auto"
             />
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="pickerEnvio"></mat-datepicker-toggle>
-            <mat-datepicker #pickerEnvio></mat-datepicker>
-            <mat-error *ngIf="form.get('fechaenvio')?.hasError('required')">La fecha es obligatoria.</mat-error>
-        </mat-form-field>
-        <br />
-        <mat-form-field appearance="fill" class="example-full-width">
-            <mat-label>Fecha de recojo de envio</mat-label>
-            <input
-                matInput
-                placeholder="Ingrese fecha"
-                [matDatepicker]="pickerRecojo"
-                formControlName="fecharecojo"
-                [max]="maxFecha"
-            />
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="pickerRecojo"></mat-datepicker-toggle>
-            <mat-datepicker #pickerRecojo></mat-datepicker>
-            <mat-error *ngIf="form.get('fecharecojo')?.hasError('required')">La fecha es obligatoria.</mat-error>
-        </mat-form-field>
-        <br />
-        <mat-form-field class="example-full-width">
-            <mat-label>Foto no obligatoria</mat-label>
-            <input matInput placeholder="Ingrese URL" formControlName="fotoNoObligatoriaServicio" />
-        </mat-form-field>
-        <br />
-        <mat-form-field class="example-full-width">
-            <mat-label>Foto antes del servicio</mat-label>
-            <input matInput placeholder="Ingrese URL" formControlName="fotoAntesServicio" />
-        </mat-form-field>
-        <br />
-        <mat-form-field class="example-full-width">
-            <mat-label>Foto después del servicio</mat-label>
-            <input matInput placeholder="Ingrese URL" formControlName="fotoDespuesServicio" />
-        </mat-form-field>
-        <br />
-        <button mat-raised-button color="primary">Aceptar</button>
-        <button mat-raised-button color="warn" routerLink="/servicio"><mat-icon>cancel_presentation</mat-icon></button>
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let c of clientesFiltrados" [value]="c.nombreCliente" (onSelectionChange)="clienteSeleccionado(c.idClientes)">
+                {{ c.nombreCliente }}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="form.get('cliente')?.hasError('required')">
+              El registro del cliente es obligatorio.
+            </mat-error>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="redirigirRegistroCliente()">
+            Registrar nuevo cliente
+          </button>
+        </div>
+        <div class="form-group">
+            <mat-form-field class="example-full-width">
+                <mat-label>Tipo de servicio</mat-label>
+                <mat-select formControlName="tiposervicio">
+                    <mat-option *ngFor="let g of tiposervicio" [value]="g.value">
+                        {{ g.viewValue }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('tiposervicio')?.hasError('required')">El tipo de servicio es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="fill" class="example-full-width">
+                <mat-label>Fecha de programación de envio</mat-label>
+                <input
+                    matInput
+                    placeholder="Ingrese fecha"
+                    [matDatepicker]="pickerEnvio"
+                    formControlName="fechaenvio"
+                    [max]="maxFecha"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="pickerEnvio"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEnvio></mat-datepicker>
+                <mat-error *ngIf="form.get('fechaenvio')?.hasError('required')">La fecha es obligatoria.</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="fill" class="example-full-width">
+                <mat-label>Fecha de recojo de envio</mat-label>
+                <input
+                    matInput
+                    placeholder="Ingrese fecha"
+                    [matDatepicker]="pickerRecojo"
+                    formControlName="fecharecojo"
+                    [max]="maxFecha"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="pickerRecojo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerRecojo></mat-datepicker>
+                <mat-error *ngIf="form.get('fecharecojo')?.hasError('required')">La fecha es obligatoria.</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field class="example-full-width">
+                <mat-label>Foto no obligatoria</mat-label>
+                <input matInput placeholder="Ingrese URL" formControlName="fotoNoObligatoriaServicio" />
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field class="example-full-width">
+                <mat-label>Foto antes del servicio</mat-label>
+                <input matInput placeholder="Ingrese URL" formControlName="fotoAntesServicio" />
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field class="example-full-width">
+                <mat-label>Foto después del servicio</mat-label>
+                <input matInput placeholder="Ingrese URL" formControlName="fotoDespuesServicio" />
+            </mat-form-field>
+        </div>
+        <div class="button-group">
+            <button mat-raised-button color="primary">Aceptar</button>
+            <button mat-raised-button color="warn" routerLink="/servicio">
+                <mat-icon>cancel_presentation</mat-icon>
+            </button>
+        </div>
     </form>
 </div>
 
