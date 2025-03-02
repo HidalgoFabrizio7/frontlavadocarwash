@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule, NgIf, AsyncPipe } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import {AsyncPipe} from '@angular/common';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -40,6 +39,7 @@ import moment from 'moment';
 export class RegistrarservicioComponent implements OnInit {
     form: FormGroup = new FormGroup({});
     servicio: Servicio = new Servicio();
+    idClienteTemp: number = 0;
     listaClientes: Cliente[] = [];
     clientesFiltrados: Cliente[] = [];
     tiposervicio: { value: string; viewValue: string }[] = [
@@ -89,6 +89,7 @@ export class RegistrarservicioComponent implements OnInit {
     }
 
     clienteSeleccionado(idCliente: number): void {
+      this.idClienteTemp = idCliente;
       const cliente = this.listaClientes.find(c => c.idClientes === idCliente);
       if (cliente) {
         this.form.get('cliente')?.setValue(cliente.nombreCliente);
@@ -97,21 +98,32 @@ export class RegistrarservicioComponent implements OnInit {
 
     aceptar(): void {
         if (this.form.valid) {
+
+            console.log('Formulario válido, enviando datos...');
+            console.log('ID Cliente Temporal:', this.idClienteTemp);
+            console.log('Datos del formulario:', this.form.value);
+
             this.servicio.idServicio = this.form.value.codigo;
-            this.servicio.cliente.idClientes = this.form.value.cliente;
+            this.servicio.cliente.idClientes = this.idClienteTemp;
             this.servicio.tipoDeServicio = this.form.value.tiposervicio;
             this.servicio.fechaEnvioServicio = this.form.value.fechaenvio;
             this.servicio.fechaRecojoServicio = this.form.value.fecharecojo;
             this.servicio.fotoNoObligatoriaServicio = this.form.value.fotoNoObligatoriaServicio;
             this.servicio.fotoAntesServicio = this.form.value.fotoAntesServicio;
             this.servicio.fotoDespuesServicio = this.form.value.fotoDespuesServicio;
+            
+            console.log('Datos del servicio a enviar:', this.servicio);
+
             this.serS.insertar(this.servicio).subscribe((data) => {
-                this.serS.list().subscribe((data) => {
+              console.log('Respuesta del servidor:', data);  
+              this.serS.list().subscribe((data) => {
                     this.serS.setList(data);
                 });
             });
             this.router.navigate(['servicio']);
-        }
+        } else {
+          console.log('Formulario inválido, por favor revise los campos.');
+      }
     }
 
     init() {
