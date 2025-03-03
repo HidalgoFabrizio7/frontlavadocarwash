@@ -42,6 +42,8 @@ export class RegistrarmuebleComponent implements OnInit{
   ];
   edicion: boolean = false;
   id: number = 0;
+  base64String: string | null = null; // Agregar esta línea
+  base64String2: string | null = null; // Agregar esta línea
   maxFecha: Date = moment().add(-1, 'days').toDate();
   constructor(
       private muS: MuebleService,
@@ -62,16 +64,51 @@ export class RegistrarmuebleComponent implements OnInit{
         codigoservicio: ['', Validators.required],
         etapaservicio: ['', Validators.required],
         fechaenvio: ['', Validators.required],
+        fotoAntes: [''],
+        fotoDespues: [''],
       });
       this.serS.list().subscribe((data) => {
         this.listaServicio = data;
       });
     }
+
+    onFileChange(event: any): void {
+      const reader = new FileReader();
+      if (event.target.files && event.target.files.length) {
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.base64String = reader.result as string; // Asignar a la propiedad base64String
+          this.form.patchValue({
+            fotoAntes: this.base64String
+          });
+          console.log('Imagen convertida a base64:', this.base64String);
+        };
+      }
+    }
+
+    onFileChange2(event: any): void {
+      const reader = new FileReader();
+      if (event.target.files && event.target.files.length) {
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.base64String2 = reader.result as string; // Asignar a la propiedad base64String
+          this.form.patchValue({
+            fotoDespues: this.base64String
+          });
+          console.log('Imagen convertida a base64:', this.base64String2);
+        };
+      }
+    }
+
     aceptar(): void {
       if (this.form.valid) {
         this.mueble.idMueble = this.form.value.codigo;
         this.mueble.etapaLavado = this.form.value.etapaservicio;
         this.mueble.fechaSecado = this.form.value.fechaenvio;
+        this.mueble.fotoAntes = this.form.value.fotoAntes;
+        this.mueble.fotoDespues = this.form.value.fotoDespues;
         this.mueble.servicio.idServicio = this.form.value.codigoservicio;
         this.muS.insertar(this.mueble).subscribe((data) => {
           this.muS.list().subscribe((data) => {
@@ -89,8 +126,12 @@ export class RegistrarmuebleComponent implements OnInit{
             codigo: new FormControl(data.idMueble),
             etapaservicio: new FormControl(data.etapaLavado),
             fechaenvio: new FormControl(data.fechaSecado),
+            fotoAntes: new FormControl(data.fotoAntes),
+            fotoDespues: new FormControl(data.fotoDespues),
             codigoservicio: new FormControl(data.servicio.idServicio),
           });
+          this.base64String = data.fotoAntes;
+          this.base64String2 = data.fotoDespues;
         });
       }
     }

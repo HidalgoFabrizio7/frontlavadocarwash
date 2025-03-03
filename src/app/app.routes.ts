@@ -43,7 +43,7 @@ export const routes: Routes = [
             path: 'nuevomueble', component: RegistrarmuebleComponent
           },
           {
-            path:'edicionesmueble/:id',component: RegistrarmuebleComponent 
+            path:'edicion/:id', component: RegistrarmuebleComponent 
           }
         ],
       },
@@ -56,7 +56,7 @@ export const routes: Routes = [
             path: 'nuevoservicio', component: RegistrarservicioComponent 
           },
           {
-            path:'edicionesservicio/:id',component: RegistrarservicioComponent 
+            path:'ediciones/:id',component: RegistrarservicioComponent 
           }
         ],
       },

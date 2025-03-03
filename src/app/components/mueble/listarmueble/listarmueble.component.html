@@ -31,21 +31,19 @@
       <ng-container matColumnDef="accion01">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let element">
-          <button
-            mat-raised-button
-            color="warn"
-            [routerLink]="['ediciones', element.idServicio]"
-          >
-          <mat-icon>edit</mat-icon>        </button>
-        </td></ng-container
-      >
+            <button mat-raised-button color="warn" [routerLink]="['edicion', element.idMueble]">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="accion02">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let element">
           <button
             mat-raised-button
             color="warn"
-            (click)="eliminar(element.idServicio)"
+            (click)="eliminar(element.idMueble)"
           >
           <mat-icon>delete_forever</mat-icon>
         </button>

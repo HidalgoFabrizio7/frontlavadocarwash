@@ -9,12 +9,14 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Servicio } from '../../../models/Servicio';
 @Component({
     selector: 'app-listarservicio',
-    imports: [MatTableModule,
+    imports: [
+        MatTableModule,
         MatIconModule,
         RouterModule,
         MatCardModule,
         CommonModule,
-        MatPaginatorModule],
+        MatPaginatorModule
+      ],
     templateUrl: './listarservicio.component.html',
     styleUrl: './listarservicio.component.css'
 })
@@ -23,7 +25,6 @@ export class ListarservicioComponent implements OnInit{
   displayedColumns: string[] = [
     'codigo',
     'tiposervicio',
-    'foto1',
     'foto2',
     'foto3', 
     'fechaenvio',
@@ -33,7 +34,6 @@ export class ListarservicioComponent implements OnInit{
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(private sS:ServicioService){}
-
 
   ngOnInit(): void {
     this.sS.list().subscribe((data) => {
@@ -60,6 +60,6 @@ export class ListarservicioComponent implements OnInit{
         }
       }
     );
-    }
+  }
 
 }

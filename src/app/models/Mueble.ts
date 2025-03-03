@@ -5,5 +5,7 @@ export class Mueble {
     descripcion: string = "";
     etapaLavado: string = "";
     fechaSecado: Date = new Date();
+    fotoAntes: string = "";
+    fotoDespues: string = "";
     servicio: Servicio = new Servicio();
 }

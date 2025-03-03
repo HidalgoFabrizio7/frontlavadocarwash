@@ -1,105 +1,118 @@
 <div class="title-container">
     <h2 class="title">Registro de servicio</h2>
 </div>
+
 <div class="form-container">
-    <form [formGroup]="form" (submit)="aceptar()" class="example-form">
+    <form [formGroup]="form" (submit)="aceptar()" enctype="multipart/form-data" class="example-form">
+
+        <!-- Código (Solo si está en edición) -->
         <div class="form-group" *ngIf="edicion">
             <mat-form-field class="example-full-width">
-                <mat-label>Codigo</mat-label>
-                <input matInput placeholder="Ingrese código" formControlName="codigo" />
+                <mat-label>Código</mat-label>
+                <input matInput placeholder="Ingrese código" formControlName="codigo" readonly="edicion" />
             </mat-form-field>
         </div>
+
+        <!-- Cliente -->
         <div class="form-group">
-          <mat-form-field class="example-full-width">
-            <mat-label>Cliente</mat-label>
-            <input 
-              type="text"
-              placeholder="Seleccione un cliente"
-              aria-label="Cliente"
-              matInput
-              formControlName="cliente"
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let c of clientesFiltrados" [value]="c.nombreCliente" (onSelectionChange)="clienteSeleccionado(c.idClientes)">
-                {{ c.nombreCliente }}
-                </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.get('cliente')?.hasError('required')">
-              El registro del cliente es obligatorio.
-            </mat-error>
-          </mat-form-field>
-          <button mat-raised-button color="primary" (click)="redirigirRegistroCliente()">
-            Registrar nuevo cliente
-          </button>
+            <mat-form-field class="example-full-width">
+                <mat-label>Cliente</mat-label>
+                <input 
+                  type="text"
+                  placeholder="Seleccione un cliente"
+                  aria-label="Cliente"
+                  matInput
+                  formControlName="cliente"
+                  [matAutocomplete]="auto"
+                  [readonly]="edicion"
+                />
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let c of clientesFiltrados" [value]="c.nombreCliente" (onSelectionChange)="clienteSeleccionado(c.idClientes)" readonly="edicion">
+                    {{ c.nombreCliente }}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="form.get('cliente')?.hasError('required')">
+                    El registro del cliente es obligatorio.
+                </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="redirigirRegistroCliente()">
+                Registrar nuevo cliente
+            </button>
         </div>
+
+        <!-- Tipo de Servicio -->
         <div class="form-group">
             <mat-form-field class="example-full-width">
                 <mat-label>Tipo de servicio</mat-label>
                 <mat-select formControlName="tiposervicio">
-                    <mat-option *ngFor="let g of tiposervicio" [value]="g.value">
-                        {{ g.viewValue }}
+                    <mat-option *ngFor="let g of tiposervicio" [value]="g.value" [disabled]="edicion">
+                    {{ g.viewValue }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="form.get('tiposervicio')?.hasError('required')">El tipo de servicio es obligatorio.</mat-error>
+                <mat-error *ngIf="form.get('tiposervicio')?.hasError('required')">
+                    El tipo de servicio es obligatorio.
+                </mat-error>
             </mat-form-field>
         </div>
-        <div class="form-group">
-            <mat-form-field appearance="fill" class="example-full-width">
-                <mat-label>Fecha de programación de envio</mat-label>
-                <input
-                    matInput
-                    placeholder="Ingrese fecha"
-                    [matDatepicker]="pickerEnvio"
-                    formControlName="fechaenvio"
-                    [max]="maxFecha"
-                />
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="pickerEnvio"></mat-datepicker-toggle>
-                <mat-datepicker #pickerEnvio></mat-datepicker>
-                <mat-error *ngIf="form.get('fechaenvio')?.hasError('required')">La fecha es obligatoria.</mat-error>
-            </mat-form-field>
+
+        <!-- Fechas -->
+        <div class="form-group-group">
+            <div class="form-group">
+                <mat-form-field appearance="fill" class="example-full-width">
+                    <mat-label>Fecha de programación de envío</mat-label>
+                    <input
+                        matInput
+                        placeholder="Ingrese fecha"
+                        [matDatepicker]="pickerEnvio"
+                        formControlName="fechaenvio"
+                        [min]="maxFecha"
+                        readonly="edicion"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerEnvio"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnvio></mat-datepicker>
+                    <mat-error *ngIf="form.get('fechaenvio')?.hasError('required')">
+                        La fecha es obligatoria.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <div class="form-group">
+                <mat-form-field appearance="fill" class="example-full-width">
+                    <mat-label>Fecha de recojo de envío</mat-label>
+                    <input
+                        matInput
+                        placeholder="Ingrese fecha"
+                        [matDatepicker]="pickerRecojo"
+                        formControlName="fecharecojo"
+                        [min]="maxFecha"
+                        readonly="edicion"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerRecojo"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerRecojo></mat-datepicker>
+                    <mat-error *ngIf="form.get('fecharecojo')?.hasError('required')">
+                        La fecha es obligatoria.
+                    </mat-error>
+                </mat-form-field>
+            </div>
         </div>
-        <div class="form-group">
-            <mat-form-field appearance="fill" class="example-full-width">
-                <mat-label>Fecha de recojo de envio</mat-label>
-                <input
-                    matInput
-                    placeholder="Ingrese fecha"
-                    [matDatepicker]="pickerRecojo"
-                    formControlName="fecharecojo"
-                    [max]="maxFecha"
-                />
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="pickerRecojo"></mat-datepicker-toggle>
-                <mat-datepicker #pickerRecojo></mat-datepicker>
-                <mat-error *ngIf="form.get('fecharecojo')?.hasError('required')">La fecha es obligatoria.</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="form-group">
-            <mat-form-field class="example-full-width">
-                <mat-label>Foto no obligatoria</mat-label>
-                <input matInput placeholder="Ingrese URL" formControlName="fotoNoObligatoriaServicio" />
-            </mat-form-field>
-        </div>
-        <div class="form-group">
+
+        <!-- Foto antes del servicio (Solo si está en edición) -->
+        <div class="form-group" *ngIf="edicion">
             <mat-form-field class="example-full-width">
                 <mat-label>Foto antes del servicio</mat-label>
                 <input matInput placeholder="Ingrese URL" formControlName="fotoAntesServicio" />
             </mat-form-field>
         </div>
-        <div class="form-group">
-            <mat-form-field class="example-full-width">
-                <mat-label>Foto después del servicio</mat-label>
-                <input matInput placeholder="Ingrese URL" formControlName="fotoDespuesServicio" />
-            </mat-form-field>
-        </div>
+
+        <!-- Botones -->
         <div class="button-group">
             <button mat-raised-button color="primary">Aceptar</button>
             <button mat-raised-button color="warn" routerLink="/servicio">
                 <mat-icon>cancel_presentation</mat-icon>
             </button>
         </div>
+
     </form>
 </div>
-

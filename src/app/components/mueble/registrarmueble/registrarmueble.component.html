@@ -1,61 +1,97 @@
 <div class="title-container">
-    <h2 class="title">Registro de mueble</h2>
-  </div>
-  <div class="title-container">
-    <form [formGroup]="form" (submit)="aceptar()" class="example-form">
-      <mat-form-field class="example-full-width"  *ngIf="edicion" >
-        <mat-label>Codigo</mat-label>
-        <input matInput placeholder="codigo" formControlName="codigo" />      
-      </mat-form-field>
-      <br/>
-      <mat-form-field class="example-full-width">
-        <mat-label>Código de servicio</mat-label>
-        <mat-select formControlName="codigoservicio">
-          <mat-option *ngFor="let c of listaServicio" [value]="c.idServicio">
-            {{ c.idServicio }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('codigoservicio')?.hasError('required')"
-          >El registro del código del servicio es obligatorio.</mat-error
-        >
-      </mat-form-field>
-      <br/>
-      <mat-form-field class="example-full-width">
-        <mat-label>Etapa del servicio</mat-label>
-        <mat-select formControlName="etapaservicio">
-          <mat-option *ngFor="let g of etapaservicio" [value]="g.value">
-            {{ g.viewValue }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('etapaservicio')?.hasError('required')"
-          >El tipo de servicio es obligatoria.</mat-error
-        >
-      </mat-form-field>
-      <br/>
-      <mat-form-field appearance="fill" class="example-full-width">
-        <mat-label>Fecha de secado</mat-label>
-        <input
-          matInput
-          placeholder="Ingrese fecha"
-          [matDatepicker]="picker"
-          formControlName="fechaenvio"
-          [max]="maxFecha"
-        />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="form.get('fecha')?.hasError('required')"
-          >La fecha es obligatoria.</mat-error
-        >
-      </mat-form-field>
-    <br />
-      <button mat-raised-button color="primary">Aceptar</button>
-      <button mat-raised-button color="warn" routerLink="/servicio"><mat-icon> cancel_presentation</mat-icon>
-      </button>
-    </form>
-  </div>
+  <h2 class="title">Registro de mueble</h2>
+</div>
 
+<div class="form-container">
+  <form [formGroup]="form" (submit)="aceptar()" class="example-form">
 
+      <!-- Código (Solo si está en edición) -->
+      <div class="form-group" *ngIf="edicion">
+          <mat-form-field class="example-full-width">
+              <mat-label>Código</mat-label>
+              <input matInput placeholder="Código" formControlName="codigo" />
+          </mat-form-field>
+      </div>
+
+      <!-- Código de servicio -->
+      <div class="form-group">
+          <mat-form-field class="example-full-width">
+              <mat-label>Código de servicio</mat-label>
+              <mat-select formControlName="codigoservicio">
+                  <mat-option *ngFor="let c of listaServicio" [value]="c.idServicio">
+                      {{ c.idServicio }}
+                  </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('codigoservicio')?.hasError('required')">
+                  El registro del código del servicio es obligatorio.
+              </mat-error>
+          </mat-form-field>
+      </div>
+
+      <!-- Etapa del servicio -->
+      <div class="form-group">
+          <mat-form-field class="example-full-width">
+              <mat-label>Etapa del servicio</mat-label>
+              <mat-select formControlName="etapaservicio">
+                  <mat-option *ngFor="let g of etapaservicio" [value]="g.value">
+                      {{ g.viewValue }}
+                  </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('etapaservicio')?.hasError('required')">
+                  La etapa del servicio es obligatoria.
+              </mat-error>
+          </mat-form-field>
+      </div>
+
+      <!-- Fecha de secado -->
+      <div class="form-group">
+          <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Fecha de secado</mat-label>
+              <input
+                  matInput
+                  placeholder="Ingrese fecha"
+                  [matDatepicker]="picker"
+                  formControlName="fechaenvio"
+                  [max]="maxFecha"
+              />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="form.get('fecha')?.hasError('required')">
+                  La fecha es obligatoria.
+              </mat-error>
+          </mat-form-field>
+      </div>
+
+      <!-- Imagen Antes -->
+      <div class="form-group">
+          <label class="image-label">Foto Antes</label>
+          <div class="image-upload">
+              <input type="file" name="file" (change)="onFileChange($event)" />
+          </div>
+          <div class="image-preview">
+              <img *ngIf="base64String" [src]="base64String" alt="Imagen seleccionada" />
+          </div>
+      </div>
+
+        <!-- Imagen Antes -->
+        <div class="form-group">
+            <label class="image-label">Foto Despues</label>
+            <div class="image-upload">
+                <input type="file" name="file" (change)="onFileChange2($event)" />
+            </div>
+            <div class="image-preview">
+                <img *ngIf="base64String2" [src]="base64String2" alt="Imagen seleccionada" />
+            </div>
+        </div>
+
+      <!-- Botones -->
+      <div class="button-group">
+          <button mat-raised-button color="primary">Aceptar</button>
+          <button mat-raised-button color="warn" routerLink="/servicio">
+              <mat-icon>cancel_presentation</mat-icon>
+          </button>
+      </div>
+
+  </form>
+</div>

@@ -48,7 +48,8 @@ export class RegistrarservicioComponent implements OnInit {
     ];
     edicion: boolean = false;
     id: number = 0;
-    maxFecha: Date = moment().add(-1, 'days').toDate();
+    maxFecha: Date = moment().add(0, 'days').toDate();
+
 
     constructor(
         private serS: ServicioService,
@@ -63,6 +64,7 @@ export class RegistrarservicioComponent implements OnInit {
             this.id = data['id'];
             this.edicion = data['id'] != null;
             this.init();
+
         });
         this.form = this.formBuilder.group({
             codigo: [''],
@@ -81,6 +83,9 @@ export class RegistrarservicioComponent implements OnInit {
         this.form.get('cliente')?.valueChanges.subscribe(value => {
             this.filtrarClientes(value);
         });
+        if (this.edicion) {
+            this.clienteSeleccionado(this.idClienteTemp);
+        }
     }
 
     filtrarClientes(value: string): void {
@@ -98,13 +103,14 @@ export class RegistrarservicioComponent implements OnInit {
 
     aceptar(): void {
         if (this.form.valid) {
-
             console.log('Formulario válido, enviando datos...');
             console.log('ID Cliente Temporal:', this.idClienteTemp);
             console.log('Datos del formulario:', this.form.value);
 
+            this.form.get('cliente')?.setValue(this.idClienteTemp);
+
             this.servicio.idServicio = this.form.value.codigo;
-            this.servicio.cliente.idClientes = this.idClienteTemp;
+            this.servicio.cliente.idClientes = this.form.value.cliente;
             this.servicio.tipoDeServicio = this.form.value.tiposervicio;
             this.servicio.fechaEnvioServicio = this.form.value.fechaenvio;
             this.servicio.fechaRecojoServicio = this.form.value.fecharecojo;
@@ -123,15 +129,17 @@ export class RegistrarservicioComponent implements OnInit {
             this.router.navigate(['servicio']);
         } else {
           console.log('Formulario inválido, por favor revise los campos.');
-      }
+        }
+
     }
 
     init() {
         if (this.edicion) {
             this.serS.listId(this.id).subscribe((data) => {
+                this.idClienteTemp = data.cliente.idClientes;
                 this.form = new FormGroup({
                     codigo: new FormControl(data.idServicio),
-                    cliente: new FormControl(data.cliente.idClientes),
+                    cliente: new FormControl(data.cliente.nombreCliente),
                     tiposervicio: new FormControl(data.tipoDeServicio),
                     fechaenvio: new FormControl(data.fechaEnvioServicio),
                     fecharecojo: new FormControl(data.fechaRecojoServicio),

@@ -1,0 +1,126 @@
+/* 🎯 Contenedor del título */
+.title-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 📜 Contenedor del formulario */
+.form-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+/* 🏗 Espaciado entre los grupos de formulario */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 📏 Hace que los inputs ocupen todo el ancho disponible */
+.example-full-width {
+    width: 100%;
+}
+
+/* 📂 Estilos para la selección de imágenes */
+.image-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.image-upload {
+    display: flex;
+    align-items: center;
+}
+
+/* 🖼 Contenedor de la imagen para mejorar la presentación */
+.image-preview {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background: white;
+}
+
+/* 🎛 Alineación de botones */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* 🔘 Botones */
+button {
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+/* 🎨 Botón de aceptar */
+button[color="primary"] {
+    background-color: #007bff;
+    color: white;
+}
+
+button[color="primary"]:hover {
+    background-color: #0056b3;
+}
+
+/* ❌ Botón de cancelar */
+button[color="warn"] {
+    background-color: #dc3545;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+button[color="warn"]:hover {
+    background-color: #a71d2a;
+}
+
+/* 📱 Diseño Responsive */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button-group button {
+        margin-bottom: 10px;
+    }
+}
