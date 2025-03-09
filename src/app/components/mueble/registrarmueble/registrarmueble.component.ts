@@ -58,21 +58,25 @@ export class RegistrarmuebleComponent implements OnInit{
       this.route.parent?.params.subscribe((data: Params) => {
         const urlSegments = this.route.snapshot.url;
         if (urlSegments.length > 0 && urlSegments[urlSegments.length - 1].path === 'registro') {
-            this.idServicio = data['id'];
+          this.idServicio = data['id'];
+          this.edicion = false;
           console.log(this.idServicio);
           console.log("es registro");
         }
+      });
 
-        if (urlSegments.length > 1 && urlSegments[0].path === 'mueble' && urlSegments[1].path === 'edicion') {
+      this.route.params.subscribe((data: Params) => {
+        if (data['id'] != null && !this.route.parent?.snapshot.url[0].path.startsWith('servicio')) {
+          console.log('Edición activada con ID:', data['id']);
           this.id = data['id'];
           this.edicion = true;
-          console.log("es edicion");
           this.init();
         }
       });
+
       this.form = this.formBuilder.group({
         codigo: [''],
-        codigoservicio: ['', Validators.required],
+        codigoservicio: [''],
         etapaservicio: ['', Validators.required],
         fechaenvio: ['', Validators.required],
         fotoAntes: [''],
@@ -83,9 +87,8 @@ export class RegistrarmuebleComponent implements OnInit{
       });
       if (this.idServicio !== 0) {
         this.form.patchValue({
-          codigoservicio: this.idServicio
+          codigoservicio: this.idServicio,
         });
-        console
       }
 
     }
@@ -133,7 +136,9 @@ export class RegistrarmuebleComponent implements OnInit{
             this.muS.setList(data);
           });
         });
-        this.router.navigate(['mueble']);
+        this.router.navigate([this.router.url]).then(() => {
+          window.location.reload();
+        });
       }
     }
   
