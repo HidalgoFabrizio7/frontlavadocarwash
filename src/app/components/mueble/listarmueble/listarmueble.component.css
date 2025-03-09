@@ -1,0 +1,152 @@
+/* General styles */
+.list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+}
+
+.mueble-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    flex: 1 1 calc(33.333% - 32px);
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.mueble-item:hover {
+    transform: scale(1.05);
+}
+
+.mueble-item img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.mueble-item h3 {
+    margin: 16px 0 8px;
+    font-size: 1.25rem;
+}
+
+.mueble-item p {
+    margin: 0;
+    color: #666;
+}
+
+/* Contenedor principal */
+.container {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+/* Contenedor del título */
+.title-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Contenedor de la tabla */
+.table-container {
+    overflow-x: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+}
+
+/* Estilos de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Estilos de los botones */
+button {
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button[mat-raised-button][color="primary"] {
+    background-color: #007bff;
+    color: #fff;
+}
+
+button[mat-raised-button][color="warn"] {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+button[mat-raised-button][color="warn"]:hover {
+    background-color: #c82333;
+}
+
+/* Estilos del paginador */
+mat-paginator {
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .mueble-item {
+        flex: 1 1 calc(50% - 32px);
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mueble-item {
+        flex: 1 1 calc(100% - 32px);
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+}

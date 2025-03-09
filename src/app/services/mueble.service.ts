@@ -34,4 +34,8 @@ export class MuebleService {
     eliminar(id: number) {
       return this.http.delete(`${this.url}/${id}`);
     }
+
+    listarPorServicio(id: number) {
+      return this.http.get<Mueble[]>(`${this.url}/porservicio/${id}`);
+    }
 }

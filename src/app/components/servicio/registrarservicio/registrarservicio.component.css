@@ -1,7 +1,18 @@
+/* Contenedor principal */
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+}
+
 /* Contenedor del título */
 .title-container {
     text-align: center;
     margin-bottom: 20px;
+    background-color: #78c17e; /* Verde claro */
+    padding: 15px;
+    border-radius: 10px;
 }
 
 .title {
@@ -10,86 +21,163 @@
     color: #333;
 }
 
-/* Contenedor del formulario */
+/* Contenedor de formulario */
 .form-container {
+    flex: 1;
+    min-width: 300px;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
     max-width: 600px;
 }
 
-/* Espaciado entre grupos de campos */
+/* Cliente - Ajustar para que el botón "Registrar nuevo cliente" esté al lado derecho del input */
 .form-group {
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
 }
 
-/* Hace que los inputs ocupen todo el ancho disponible */
+.ajustar-boton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.ajustar-boton mat-form-field {
+    flex: 1;
+}
+
+.ajustar-boton button {
+    white-space: nowrap;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    background-color: #007bff;
+    color: white;
+    margin-left: 10px;
+}
+
+.ajustar-boton button:hover {
+    background-color: #0056b3;
+}
+
+/* Ajuste para que los inputs no se desconfiguren */
 .example-full-width {
     width: 100%;
 }
 
-/* Alineación de los botones */
+/* Botón "Agregar Mueble" */
+.add-mueble-button {
+    display: inline-block;
+    background-color: #17a2b8; /* Azul */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease-in-out;
+    margin-bottom: 10px; /* Reducimos el espacio con la lista de muebles */
+}
+
+.add-mueble-button:hover {
+    background-color: #138496;
+}
+
+/* Contenedor de muebles */
+.mueble-container {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste para reducir espacio entre el botón "Agregar Mueble" y la lista de muebles */
+.mueble-container button {
+    margin-bottom: 5px; /* Se redujo el margen para menor separación */
+}
+
+/* Lista de muebles */
+.list-mueblecontainer {
+    margin-top: 10px; /* Se redujo el espacio superior */
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones de aceptar y cancelar */
 .button-group {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 button {
     border-radius: 5px;
+    padding: 10px 15px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
 }
 
-/* 🖼 Estilos para la imagen seleccionada */
-.image-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
+/* Botón de aceptar */
+button[color="primary"] {
+    background-color: #007bff;
+    color: white;
 }
 
-.image-upload {
+button[color="primary"]:hover {
+    background-color: #0056b3;
+}
+
+/* Botón de cancelar */
+button[color="warn"] {
+    background-color: #dc3545;
+    color: white;
     display: flex;
     align-items: center;
+    gap: 6px;
 }
 
-/* Contenedor de la imagen para mejorar la presentación */
-.image-preview {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+button[color="warn"]:hover {
+    background-color: #a71d2a;
 }
 
-.image-preview img {
-    max-width: 100%;
-    max-height: 200px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background: white;
-}
-
-/* 📱 Diseño Responsive */
+/* Responsive */
 @media (max-width: 768px) {
-    .form-container {
-        padding: 10px;
-        margin: 10px;
+    .main-container {
+        flex-direction: column;
     }
 
-    .title {
-        font-size: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .button-group {
+    .ajustar-boton {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .button-group button {
-        margin-bottom: 10px;
+    .ajustar-boton button {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .button-group {
+        justify-content: center;
+    }
+
+    .add-mueble-button {
+        width: 100%;
     }
 }

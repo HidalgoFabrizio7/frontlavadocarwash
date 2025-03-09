@@ -66,11 +66,17 @@ export class RegistrarmuebleComponent implements OnInit{
       });
 
       this.route.params.subscribe((data: Params) => {
+        const urlSegments = this.route.snapshot.url;
         if (data['id'] != null && !this.route.parent?.snapshot.url[0].path.startsWith('servicio')) {
           console.log('Edición activada con ID:', data['id']);
           this.id = data['id'];
           this.edicion = true;
           this.init();
+        } else {
+          this.idServicio = data['id'];
+          this.edicion = false;
+          console.log(this.idServicio);
+          console.log("es registro");
         }
       });
 

@@ -16,6 +16,7 @@ import { Cliente } from '../../../models/Cliente';
 import { ClienteService } from '../../../services/cliente.service';
 import moment from 'moment';
 import { RegistrarmuebleComponent } from '../../mueble/registrarmueble/registrarmueble.component';
+import { ListarmuebleComponent } from '../../mueble/listarmueble/listarmueble.component';
 
 @Component({
     selector: 'app-registrarservicio',
@@ -35,6 +36,7 @@ import { RegistrarmuebleComponent } from '../../mueble/registrarmueble/registrar
         AsyncPipe,
         RouterOutlet,
         RegistrarmuebleComponent,
+        ListarmuebleComponent
     ],
     templateUrl: './registrarservicio.component.html',
     styleUrls: ['./registrarservicio.component.css']
