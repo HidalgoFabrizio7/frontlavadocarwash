@@ -18,7 +18,7 @@ export const routes: Routes = [
           },
           {
             path:'edicionescliente/:id',component:RegistrarclienteComponent
-          }
+          },
         ],
       },
 
@@ -56,8 +56,14 @@ export const routes: Routes = [
             path: 'nuevoservicio', component: RegistrarservicioComponent 
           },
           {
-            path:'ediciones/:id',component: RegistrarservicioComponent 
-          }
+            path:'ediciones/:id',component: RegistrarservicioComponent, 
+            children: [
+              {
+                path: 'registro', component: RegistrarmuebleComponent
+              }
+            ]
+          },
+
         ],
       },
 

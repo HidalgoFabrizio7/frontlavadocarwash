@@ -33,4 +33,9 @@ export class ServicioService {
   eliminar(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
+  // Nueva función para obtener el último registro
+  obtenerUltimoRegistro() {
+    return this.http.get<Servicio>(`${this.url}/ultimoregistro`);
+  }
+  
 }

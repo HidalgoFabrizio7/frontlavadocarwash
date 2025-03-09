@@ -42,6 +42,7 @@ export class RegistrarmuebleComponent implements OnInit{
   ];
   edicion: boolean = false;
   id: number = 0;
+  idServicio: number = 0;
   base64String: string | null = null; // Agregar esta línea
   base64String2: string | null = null; // Agregar esta línea
   maxFecha: Date = moment().add(-1, 'days').toDate();
@@ -54,10 +55,20 @@ export class RegistrarmuebleComponent implements OnInit{
     ) { }
   
     ngOnInit(): void {
-      this.route.params.subscribe((data: Params) => {
-        this.id = data['id'];
-        this.edicion = data['id'] != null;
-        this.init();
+      this.route.parent?.params.subscribe((data: Params) => {
+        const urlSegments = this.route.snapshot.url;
+        if (urlSegments.length > 0 && urlSegments[urlSegments.length - 1].path === 'registro') {
+            this.idServicio = data['id'];
+          console.log(this.idServicio);
+          console.log("es registro");
+        }
+
+        if (urlSegments.length > 1 && urlSegments[0].path === 'mueble' && urlSegments[1].path === 'edicion') {
+          this.id = data['id'];
+          this.edicion = true;
+          console.log("es edicion");
+          this.init();
+        }
       });
       this.form = this.formBuilder.group({
         codigo: [''],
@@ -70,6 +81,13 @@ export class RegistrarmuebleComponent implements OnInit{
       this.serS.list().subscribe((data) => {
         this.listaServicio = data;
       });
+      if (this.idServicio !== 0) {
+        this.form.patchValue({
+          codigoservicio: this.idServicio
+        });
+        console
+      }
+
     }
 
     onFileChange(event: any): void {

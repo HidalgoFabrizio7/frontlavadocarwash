@@ -25,8 +25,6 @@ export class ListarservicioComponent implements OnInit{
   displayedColumns: string[] = [
     'codigo',
     'tiposervicio',
-    'foto2',
-    'foto3', 
     'fechaenvio',
     'fecharecojo',
     'accion01',

@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Servicio } from '../../../models/Servicio';
@@ -15,6 +15,7 @@ import { ServicioService } from '../../../services/servicio.service';
 import { Cliente } from '../../../models/Cliente';
 import { ClienteService } from '../../../services/cliente.service';
 import moment from 'moment';
+import { RegistrarmuebleComponent } from '../../mueble/registrarmueble/registrarmueble.component';
 
 @Component({
     selector: 'app-registrarservicio',
@@ -32,6 +33,8 @@ import moment from 'moment';
         CommonModule,
         RouterLink,
         AsyncPipe,
+        RouterOutlet,
+        RegistrarmuebleComponent,
     ],
     templateUrl: './registrarservicio.component.html',
     styleUrls: ['./registrarservicio.component.css']
@@ -47,7 +50,9 @@ export class RegistrarservicioComponent implements OnInit {
         { value: 'Servicio en la empresa', viewValue: 'Servicio en la empresa' },
     ];
     edicion: boolean = false;
+    nuevoMueble: boolean = false;
     id: number = 0;
+    idLast: number = 0;
     maxFecha: Date = moment().add(0, 'days').toDate();
 
 
@@ -56,7 +61,7 @@ export class RegistrarservicioComponent implements OnInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private cliS: ClienteService,
-        private route: ActivatedRoute
+        public route: ActivatedRoute,
     ) { }
 
     ngOnInit(): void {
@@ -101,6 +106,19 @@ export class RegistrarservicioComponent implements OnInit {
       }
     }
 
+    obtenerUltimoIdServicio(): void {
+        this.serS.obtenerUltimoRegistro().subscribe((data) => {
+            if (data && data.idServicio) {
+                this.id = data.idServicio;
+                this.idLast = this.id+1;
+                console.log('Último registro:', this.id);
+                this.router.navigate(['/servicio/ediciones', this.idLast]);
+            } else {
+                console.error('Error: idServicio is undefined in the response data');
+            }
+        });
+    }
+
     aceptar(): void {
         if (this.form.valid) {
             console.log('Formulario válido, enviando datos...');
@@ -126,11 +144,9 @@ export class RegistrarservicioComponent implements OnInit {
                     this.serS.setList(data);
                 });
             });
-            this.router.navigate(['servicio']);
         } else {
-          console.log('Formulario inválido, por favor revise los campos.');
+            console.log('Formulario inválido, por favor revise los campos.');
         }
-
     }
 
     init() {
@@ -148,6 +164,7 @@ export class RegistrarservicioComponent implements OnInit {
                     fotoDespuesServicio: new FormControl(data.fotoDespuesServicio)
                 });
             });
+            this.idLast = this.id;
         }
     }
 
