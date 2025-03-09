@@ -41,7 +41,7 @@ export class ListarmuebleComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.parent?.params.subscribe((data: Params) => {
+    this.route.params.subscribe((data: Params) => {
       if (data['id'] != null) {
         this.idServicio = data['id'];
 
