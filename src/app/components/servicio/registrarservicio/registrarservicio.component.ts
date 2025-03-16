@@ -34,7 +34,6 @@ import { FormDataService } from '../../../services/form-data.service';
         MatAutocompleteModule,
         CommonModule,
         RouterLink,
-        AsyncPipe,
         RegistrarmuebleComponent,
         ListarmuebleComponent
     ],
@@ -67,27 +66,32 @@ export class RegistrarservicioComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        
         this.route.params.subscribe((data: Params) => {
             this.id = data['id'];
+            console.log('modo edicion');
             console.log('ID:', this.id);
             this.edicion = data['id'] != null;
             this.init();
-        });
 
-        this.form = this.formBuilder.group({
-            codigo: [''],
-            cliente: ['', Validators.required],
-            tiposervicio: ['', Validators.required],
-            fechaenvio: ['', Validators.required],
-            fecharecojo: ['', Validators.required],
-            fotoNoObligatoriaServicio: [''],
-            fotoAntesServicio: [''],
-            fotoDespuesServicio: ['']
+            if (!this.edicion) {
+                this.form = this.formBuilder.group({
+                    codigo: [''],
+                    cliente: ['', Validators.required],
+                    tiposervicio: ['', Validators.required],
+                    fechaenvio: ['', Validators.required],
+                    fecharecojo: ['', Validators.required],
+                    fotoNoObligatoriaServicio: [''],
+                    fotoAntesServicio: [''],
+                    fotoDespuesServicio: ['']
+                });
+            }
         });
 
         // Restaurar datos del formulario si existen
         const savedFormData = this.formDataService.getFormData();
         if (savedFormData) {
+            console.log('Restaurando datos del formulario:', savedFormData);
             this.form.patchValue(savedFormData);
         }
 
@@ -189,15 +193,17 @@ export class RegistrarservicioComponent implements OnInit {
                 }
     
                 this.idClienteTemp = data.cliente?.idClientes ?? 0; // Manejo de null
-                this.form.patchValue({
-                    codigo: data.idServicio,
-                    cliente: data.cliente?.nombreCliente ?? '',  // Manejo de null
-                    tiposervicio: data.tipoDeServicio ?? '',
-                    fechaenvio: data.fechaEnvioServicio ?? '',
-                    fecharecojo: data.fechaRecojoServicio ?? '',
-                    fotoNoObligatoriaServicio: data.fotoNoObligatoriaServicio ?? '',
-                    fotoAntesServicio: data.fotoAntesServicio ?? '',
-                    fotoDespuesServicio: data.fotoDespuesServicio ?? ''
+                console.log('ID Cliente Temporal:', this.idClienteTemp);
+
+                this.form = new FormGroup({
+                    codigo: new FormControl(data.idServicio),
+                    cliente: new FormControl(data.cliente?.nombreCliente ?? ''),  // Manejo de null
+                    tiposervicio: new FormControl(data.tipoDeServicio ?? ''),
+                    fechaenvio: new FormControl(data.fechaEnvioServicio ?? ''),
+                    fecharecojo: new FormControl(data.fechaRecojoServicio ?? ''),
+                    fotoNoObligatoriaServicio: new FormControl(data.fotoNoObligatoriaServicio ?? ''),
+                    fotoAntesServicio: new FormControl(data.fotoAntesServicio ?? ''),
+                    fotoDespuesServicio: new FormControl(data.fotoDespuesServicio ?? ''),
                 });
     
                 // Forzar actualización del formulario en la UI
