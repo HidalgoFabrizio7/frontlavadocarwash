@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table'
 import { ServicioService } from '../../../services/servicio.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Servicio } from '../../../models/Servicio';
+import { After } from 'v8';
 @Component({
     selector: 'app-listarservicio',
     imports: [
@@ -20,8 +21,8 @@ import { Servicio } from '../../../models/Servicio';
     templateUrl: './listarservicio.component.html',
     styleUrl: './listarservicio.component.css'
 })
-export class ListarservicioComponent implements OnInit{
-  datasource: MatTableDataSource<Servicio> = new MatTableDataSource();
+export class ListarservicioComponent implements OnInit, AfterViewInit {
+  datasource = new MatTableDataSource<Servicio>();
   displayedColumns: string[] = [
     'codigo',
     'tiposervicio',
@@ -31,6 +32,7 @@ export class ListarservicioComponent implements OnInit{
     'accion02'
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   constructor(private sS:ServicioService){}
 
   ngOnInit(): void {
@@ -40,6 +42,13 @@ export class ListarservicioComponent implements OnInit{
     });
     this.sS.getLista().subscribe((data) => {
       this.datasource = new MatTableDataSource(data);
+      this.datasource.paginator = this.paginator;
+    });
+  }
+
+  // Asignar el paginator después de que Angular haya inicializado la vista
+  ngAfterViewInit() {
+    setTimeout(() => {
       this.datasource.paginator = this.paginator;
     });
   }
