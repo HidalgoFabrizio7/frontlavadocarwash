@@ -103,7 +103,7 @@
 
             <!-- Botones -->
             <div class="button-group">
-                <button mat-raised-button color="primary" *ngIf="!edicion" (click)="obtenerUltimoIdServicio()">Aceptar</button>
+                <button mat-raised-button color="primary" *ngIf="!edicion">Aceptar</button>
                 <button mat-raised-button color="primary" *ngIf="edicion">Aceptar</button>
                 <button mat-raised-button color="warn" routerLink="/servicio">
                     <mat-icon>cancel_presentation</mat-icon>

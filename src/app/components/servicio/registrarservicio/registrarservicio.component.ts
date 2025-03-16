@@ -66,34 +66,28 @@ export class RegistrarservicioComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        
+
         this.route.params.subscribe((data: Params) => {
             this.id = data['id'];
             console.log('modo edicion');
             console.log('ID:', this.id);
             this.edicion = data['id'] != null;
-            this.init();
 
-            if (!this.edicion) {
-                this.form = this.formBuilder.group({
-                    codigo: [''],
-                    cliente: ['', Validators.required],
-                    tiposervicio: ['', Validators.required],
-                    fechaenvio: ['', Validators.required],
-                    fecharecojo: ['', Validators.required],
-                    fotoNoObligatoriaServicio: [''],
-                    fotoAntesServicio: [''],
-                    fotoDespuesServicio: ['']
-                });
+            this.form = this.formBuilder.group({
+                codigo: [''],
+                cliente: ['', Validators.required],
+                tiposervicio: ['', Validators.required],
+                fechaenvio: ['', Validators.required],
+                fecharecojo: ['', Validators.required],
+                fotoNoObligatoriaServicio: [''],
+                fotoAntesServicio: [''],
+                fotoDespuesServicio: ['']
+            });
+
+            if (this.edicion) {
+                this.init();
             }
         });
-
-        // Restaurar datos del formulario si existen
-        const savedFormData = this.formDataService.getFormData();
-        if (savedFormData) {
-            console.log('Restaurando datos del formulario:', savedFormData);
-            this.form.patchValue(savedFormData);
-        }
 
         this.cliS.list().subscribe((data) => {
             this.listaClientes = data;
@@ -131,22 +125,6 @@ export class RegistrarservicioComponent implements OnInit {
     }
 
     /**
-     * Obtiene el último ID de servicio registrado y navega a la ruta de edición.
-     */
-    obtenerUltimoIdServicio(): void {
-        this.serS.obtenerUltimoRegistro().subscribe((data) => {
-            if (data && data.idServicio) {
-                this.id = data.idServicio;
-                this.idLast = this.id + 1;
-                console.log('Último registro:', this.id);
-                this.router.navigate(['/servicio/ediciones', this.idLast]);
-            } else {
-                console.error('Error: idServicio is undefined in the response data');
-            }
-        });
-    }
-
-    /**
      * Envía los datos del formulario si es válido.
      */
     aceptar(): void {
@@ -168,12 +146,15 @@ export class RegistrarservicioComponent implements OnInit {
 
             console.log('Datos del servicio a enviar:', this.servicio);
 
-            this.serS.insertar(this.servicio).subscribe((data) => {
-                console.log('Respuesta del servidor:', data);
+            this.serS.insertarYRegresarId(this.servicio).subscribe((data) => {
+                this.id = data;
+                console.log('ID retornado del servidor:', this.id);
                 this.serS.list().subscribe((data) => {
                     this.serS.setList(data);
                 });
+                this.router.navigate(['/servicio/ediciones', this.id]);
             });
+
         } else {
             console.log('Formulario inválido, por favor revise los campos.');
         }
@@ -197,18 +178,15 @@ export class RegistrarservicioComponent implements OnInit {
 
                 this.form = new FormGroup({
                     codigo: new FormControl(data.idServicio),
-                    cliente: new FormControl(data.cliente?.nombreCliente ?? ''),  // Manejo de null
-                    tiposervicio: new FormControl(data.tipoDeServicio ?? ''),
-                    fechaenvio: new FormControl(data.fechaEnvioServicio ?? ''),
-                    fecharecojo: new FormControl(data.fechaRecojoServicio ?? ''),
-                    fotoNoObligatoriaServicio: new FormControl(data.fotoNoObligatoriaServicio ?? ''),
-                    fotoAntesServicio: new FormControl(data.fotoAntesServicio ?? ''),
-                    fotoDespuesServicio: new FormControl(data.fotoDespuesServicio ?? ''),
+                    cliente: new FormControl(data.cliente.nombreCliente),  // Manejo de null
+
+                    tiposervicio: new FormControl(data.tipoDeServicio),
+                    fotoNoObligatoriaServicio: new FormControl(data.fotoNoObligatoriaServicio),
+                    fechaenvio: new FormControl(data.fechaEnvioServicio),
+                    fecharecojo: new FormControl(data.fechaRecojoServicio),
+                    fotoAntesServicio: new FormControl(data.fotoAntesServicio),
+                    fotoDespuesServicio: new FormControl(data.fotoDespuesServicio),
                 });
-    
-                // Forzar actualización del formulario en la UI
-                this.form.markAsPristine();
-                this.form.updateValueAndValidity();
             });
         }
     }
@@ -221,11 +199,4 @@ export class RegistrarservicioComponent implements OnInit {
         this.router.navigate(['/cliente/nuevocliente']);
     }
 
-    /**
-     * Guarda los datos del formulario antes de mostrar el componente de registro de muebles.
-     */
-    guardarDatosFormulario(): void {
-        this.formDataService.setFormData(this.form.value);
-        console.log('Guardando datos del formulario:', this.form.value);
-    }
 }

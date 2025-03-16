@@ -37,5 +37,8 @@ export class ServicioService {
   obtenerUltimoRegistro() {
     return this.http.get<Servicio>(`${this.url}/ultimoregistro`);
   }
+  insertarYRegresarId(servicio: Servicio) {
+    return this.http.post<number>(`${this.url}/insertaryregresarid`, servicio);
+  }
   
 }
