@@ -104,7 +104,6 @@
             <!-- Botones -->
             <div class="button-group">
                 <button mat-raised-button color="primary" *ngIf="!edicion">Aceptar</button>
-                <button mat-raised-button color="primary" *ngIf="edicion">Aceptar</button>
                 <button mat-raised-button color="warn" routerLink="/servicio">
                     <mat-icon>cancel_presentation</mat-icon>
                 </button>
@@ -113,7 +112,7 @@
         </form>
     </div>
 
-    <div class="mueble-container">
+    <div class="mueble-container" *ngIf="edicion">
         <!-- Botón para agregar mueble con routerLink -->
         <button mat-raised-button color="accent" (click)="nuevoMueble = !nuevoMueble">
             <mat-icon>add</mat-icon>
@@ -122,10 +121,9 @@
 
         <app-registrarmueble *ngIf="nuevoMueble"></app-registrarmueble>
 
-
         <!-- Componente para listar muebles (Siempre visible) -->
         <div class="list-mueblecontainer">
-            <app-listarmueble></app-listarmueble>
+            <app-listarmueble ></app-listarmueble>
         </div>
     </div>
 </div>

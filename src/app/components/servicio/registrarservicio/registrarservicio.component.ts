@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgIf, AsyncPipe } from '@angular/common';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -55,6 +55,7 @@ export class RegistrarservicioComponent implements OnInit {
     id: number = 0;
     idLast: number = 0;
     maxFecha: Date = moment().add(0, 'days').toDate();
+    editMuebleId: number | null = null;
 
     constructor(
         private serS: ServicioService,
@@ -62,7 +63,9 @@ export class RegistrarservicioComponent implements OnInit {
         private formBuilder: FormBuilder,
         private cliS: ClienteService,
         public route: ActivatedRoute,
-        private formDataService: FormDataService
+        private formDataService: FormDataService,
+        private renderer: Renderer2,
+        private el: ElementRef
     ) { }
 
     ngOnInit(): void {
@@ -72,6 +75,7 @@ export class RegistrarservicioComponent implements OnInit {
             console.log('modo edicion');
             console.log('ID:', this.id);
             this.edicion = data['id'] != null;
+            console.log('Edición:', this.edicion);
 
             this.form = this.formBuilder.group({
                 codigo: [''],
@@ -197,6 +201,15 @@ export class RegistrarservicioComponent implements OnInit {
      */
     redirigirRegistroCliente(): void {
         this.router.navigate(['/cliente/nuevocliente']);
+    }
+
+        /**
+     * Maneja el evento de edición de muebles.
+     * @param id ID del mueble a editar.
+     */
+    onEditMueble(id: number): void {
+        this.editMuebleId = id;
+        this.nuevoMueble = true;
     }
 
 }

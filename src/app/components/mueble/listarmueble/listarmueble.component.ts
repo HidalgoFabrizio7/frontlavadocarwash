@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { Mueble } from '../../../models/Mueble';
 import { MuebleService } from '../../../services/mueble.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { RegistrarmuebleComponent } from '../registrarmueble/registrarmueble.component';
 
 @Component({
     selector: 'app-listarmueble',
@@ -16,7 +17,8 @@ import { ActivatedRoute, Params } from '@angular/router';
         MatIconModule,
         RouterModule,
         CommonModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        RegistrarmuebleComponent
     ],
     templateUrl: './listarmueble.component.html',
     styleUrls: ['./listarmueble.component.css']
