@@ -183,7 +183,6 @@ export class RegistrarservicioComponent implements OnInit {
                 this.form = new FormGroup({
                     codigo: new FormControl(data.idServicio),
                     cliente: new FormControl(data.cliente.nombreCliente),  // Manejo de null
-
                     tiposervicio: new FormControl(data.tipoDeServicio),
                     fotoNoObligatoriaServicio: new FormControl(data.fotoNoObligatoriaServicio),
                     fechaenvio: new FormControl(data.fechaEnvioServicio),

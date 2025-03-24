@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter } fro
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Mueble } from '../../../models/Mueble';
 import { MuebleService } from '../../../services/mueble.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -26,6 +26,11 @@ import { RegistrarmuebleComponent } from '../registrarmueble/registrarmueble.com
 export class ListarmuebleComponent implements OnInit, AfterViewInit {
   datasource = new MatTableDataSource<Mueble>();
   idServicio: number = 0;
+  editMuebleId: number = 0;
+  muebleKey: number = 0; // Clave para forzar la recreación del componente
+  forceRender: boolean = true; // Variable para controlar la renderización
+
+
   displayedColumns: string[] = [
       'codigo',
       'descripcion',
@@ -36,10 +41,12 @@ export class ListarmuebleComponent implements OnInit, AfterViewInit {
     ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output() editMueble = new EventEmitter<number>();
 
   constructor(
       private mS: MuebleService,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,11 +81,21 @@ export class ListarmuebleComponent implements OnInit, AfterViewInit {
   eliminar(id: number) {
     this.mS.eliminar(id).subscribe(
       () => {
-        this.mS.list().subscribe((data) => {
-          this.mS.setList(data);
-          this.datasource.data = data; // Mantiene la referencia al datasource
-        });
+        if (this.idServicio != 0) {
+          // Obtener lista de muebles por servicio
+          this.mS.listarPorServicio(this.idServicio).subscribe((data) => {
+            this.mS.setList(data);
+            this.datasource.data = data;  // Reutiliza la misma instancia
+          });
+        } else {
+          // Obtener lista general de muebles
+          this.mS.list().subscribe((data) => {
+            this.mS.setList(data);
+            this.datasource.data = data;  // Reutiliza la misma instancia
+          });
+        }
       },
+
       (error) => {
         if (error.status === 500) {
           alert("No se puede eliminar el servicio.");
@@ -87,5 +104,17 @@ export class ListarmuebleComponent implements OnInit, AfterViewInit {
         }
       }
     );
+
+    this.router.navigate([this.router.url]).then(() => {
+      window.location.reload();
+    });
   }
+
+  onEditMueble(id: number): void {
+    this.editMuebleId = id;
+    this.muebleKey++; // Esto activará ngOnChanges en registrarmueble
+    this.editMueble.emit(id);
+    console.log('Editando mueble con ID:', id);
+  }
+
 }
