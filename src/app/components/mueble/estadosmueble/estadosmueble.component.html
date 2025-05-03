@@ -1,0 +1,98 @@
+<!-- Contenedor del filtro de etapa + datepicker + imagen -->
+<div style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem;">
+  <!-- Combo de etapa -->
+  <mat-form-field appearance="fill">
+    <mat-label>Filtrar por etapa</mat-label>
+    <mat-select [(value)]="etapaSeleccionada" (selectionChange)="onCambioEtapa()">
+      <mat-option value="lavado">Lavado</mat-option>
+      <mat-option value="Secado">Secado</mat-option>
+      <mat-option value="Por Entregar">Por Entregar</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Datepicker -->
+  <mat-form-field appearance="fill">
+    <mat-label>Fecha de secado</mat-label>
+    <input
+      matInput
+      [matDatepicker]="pickerGlobal"
+      [(ngModel)]="fechaSecadoGlobal"
+      [min]="minFechaSecado"
+    />
+    <mat-datepicker-toggle matSuffix [for]="pickerGlobal"></mat-datepicker-toggle>
+    <mat-datepicker #pickerGlobal></mat-datepicker>
+  </mat-form-field>
+
+  <!-- Campo de imagen personalizado con previsualización -->
+  <div style="display: flex; flex-direction: column;">
+    <label><strong>Tomar o seleccionar foto después:</strong></label>
+  
+    <!-- Botón que abre el input oculto -->
+    <button mat-raised-button color="accent" (click)="fileInput?.click()">
+      <mat-icon>photo_camera</mat-icon>
+      Tomar Foto
+    </button>
+  
+    <!-- Input de imagen oculto -->
+    <input 
+    #fileInput
+    id="fileInput"
+    type="file"
+    accept="image/*"
+    capture="environment"
+    style="display: none"
+    (change)="onFotoDespuesSeleccionada($event)"
+    />
+  
+    <!-- Miniatura -->
+    <img
+      *ngIf="fotoDespuesGlobal"
+      [src]="fotoDespuesGlobal"
+      alt="Previsualización foto después"
+      style="margin-top: 0.5rem; max-width: 120px; height: auto; border: 1px solid #ccc; border-radius: 6px;"
+    />
+  </div>
+  
+
+</div>
+
+
+
+<!-- Cards de muebles -->
+<div class="cards-container">
+  <mat-card *ngFor="let mueble of paginatedMuebles" class="mueble-card" appearance="outlined">
+    <mat-card-title>{{ mueble.descripcion }}</mat-card-title>
+  
+    <mat-card-content>
+      <p><strong>Etapa actual:</strong> {{ mueble.etapaLavado }}</p>
+      <p><strong>Fecha de secado:</strong> {{ mueble.fechaSecado | date }}</p>
+  
+      <!-- Mostrar imagen "antes" -->
+      <div *ngIf="mueble.fotoAntes">
+        <p><strong>Foto antes:</strong></p>
+        <img [src]="mueble.fotoAntes" alt="Foto antes" style="max-width: 100%; height: auto;" />
+      </div>
+  
+      <!-- Mostrar imagen "después" -->
+      <div *ngIf="mueble.fotoDespues">
+        <p><strong>Foto después:</strong></p>
+        <img [src]="mueble.fotoDespues" alt="Foto después" style="max-width: 100%; height: auto;" />
+      </div>
+    </mat-card-content>
+  
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="cambiarEtapa(mueble)">
+        Etapa culminada
+      </button>
+    </mat-card-actions>
+  </mat-card>  
+</div>
+
+<!-- Paginador -->
+<mat-paginator
+  [length]="listaMuebles.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 20, 40]"
+  (page)="onPageChange($event)"
+  showFirstLastButtons>
+</mat-paginator>

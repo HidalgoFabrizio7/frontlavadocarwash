@@ -10,6 +10,7 @@ import { RegistrarservicioComponent } from './components/servicio/registrarservi
 import { ListarmuebleComponent } from './components/mueble/listarmueble/listarmueble.component';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { EstadosmuebleComponent } from './components/mueble/estadosmueble/estadosmueble.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,9 @@ export const routes: Routes = [
       },
       {
       path:'edicion/:id', component: RegistrarmuebleComponent 
+      },
+      {
+        path:'estadomueble', component: EstadosmuebleComponent 
       }
     ],
     },

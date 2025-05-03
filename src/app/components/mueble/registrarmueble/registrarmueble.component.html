@@ -28,6 +28,23 @@
           </mat-form-field>
       </div>
 
+    <!-- Descripción con Autocompletado -->
+    <div class="form-group">
+        <mat-form-field class="example-full-width">
+        <mat-label>Descripción</mat-label>
+        <input type="text" matInput formControlName="descripcion" [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onDescripcionSelected($event)">
+            <mat-option *ngFor="let option of filteredDescripciones | async" [value]="option">
+            {{ option }}
+            </mat-option>
+        </mat-autocomplete>
+        <mat-error mat-error *ngIf="descripcionControl.hasError('required')">
+            La descripción es obligatoria.
+        </mat-error>
+        </mat-form-field>
+    </div>
+  
+
       <!-- Etapa del servicio -->
       <div class="form-group">
           <mat-form-field class="example-full-width">
@@ -92,6 +109,5 @@
               <mat-icon>cancel_presentation</mat-icon>
           </button>
       </div>
-
   </form>
 </div>

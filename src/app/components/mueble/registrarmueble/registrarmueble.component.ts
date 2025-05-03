@@ -9,6 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable, of } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import moment from 'moment';
 import { Mueble } from '../../../models/Mueble';
 import { Servicio } from '../../../models/Servicio';
@@ -29,6 +32,7 @@ import { ServicioService } from '../../../services/servicio.service';
         MatSelectModule,
         CommonModule,
         RouterLink,
+        MatAutocompleteModule
     ],
     templateUrl: './registrarmueble.component.html',
     styleUrls: ['./registrarmueble.component.css'] // Corrección aquí
@@ -44,6 +48,9 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
     { value: 'lavado', viewValue: 'lavado' },
     { value: 'Secado', viewValue: 'Secado' },
   ];
+  descripcionControl = new FormControl('');
+  filteredDescripciones: Observable<string[]> = of([]);
+  descripcionesExistentes: string[] = [];
   edicion: boolean = false;
   id: number = 0;
   idServicio: number = 0;
@@ -62,6 +69,12 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
   ngOnInit(): void {
       console.log('Registrarmueble inicializado con key:', this.key);
       this.initializeForm();
+
+          // Obtener descripciones existentes
+      this.muS.list().subscribe((muebles) => {
+        this.descripcionesExistentes = [...new Set(muebles.map(m => m.descripcion))];
+        this.setupAutocomplete();
+      });
 
       // Suscripción a parámetros del padre para determinar el servicio (opcional)
       this.route.parent?.params.subscribe((data: Params) => {
@@ -106,6 +119,30 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
       }
   }
 
+  setupAutocomplete(): void {
+    this.filteredDescripciones = this.descripcionControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterDescripciones(value || ''))
+    );
+  }
+
+  _filterDescripciones(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    const filtered = this.descripcionesExistentes.filter(desc =>
+      desc.toLowerCase().includes(filterValue)
+    );
+    // Antes: return filtered.length ? filtered : [`Agregar "${value}"`];
+    return filtered.length ? filtered : [`Agregar: ${value}`];
+  }
+
+  onDescripcionSelected(event: any): void {
+    const value: string = event.option.value;
+    if (value.startsWith('Agregar: ')) {
+      const nuevaDescripcion = value.replace('Agregar: ', '');
+      this.descripcionControl.setValue(nuevaDescripcion);
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     // Si cambia la clave o muebleId (después del primer cambio), reinicia el componente
     if ((changes['key'] && !changes['key'].firstChange) || (changes['muebleId'] && !changes['muebleId'].firstChange)) {
@@ -124,6 +161,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
       fechaenvio: ['', Validators.required],
       fotoAntes: [''],
       fotoDespues: [''],
+      descripcion: ['', Validators.required] // Nuevo campo
     });
   }
 
@@ -168,6 +206,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
   aceptar(): void {
     if (this.form.valid) {
       this.mueble.idMueble = this.form.value.codigo;
+      this.mueble.descripcion = this.form.value.descripcion;
       this.mueble.etapaLavado = this.form.value.etapaservicio;
       this.mueble.fechaSecado = this.form.value.fechaenvio;
       this.mueble.fotoAntes = this.form.value.fotoAntes;
@@ -191,6 +230,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
         // En lugar de crear un nuevo FormGroup, se actualiza el formulario existente
         this.form.reset({
           codigo: data.idMueble,
+          descripcion: data.descripcion,
           etapaservicio: data.etapaLavado,
           fechaenvio: data.fechaSecado,
           fotoAntes: data.fotoAntes,

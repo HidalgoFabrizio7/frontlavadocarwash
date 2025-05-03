@@ -12,12 +12,22 @@ export class MuebleService {
   private listaCambio = new Subject<Mueble[]>();
   constructor(private http:HttpClient) { }
     list() {
-          return this.http.get<Mueble[]>(`${this.url}`);	
-        }
+      return this.http.get<Mueble[]>(`${this.url}`);	
+    }
     insertar(m:Mueble) {
-          return this.http.post(this.url,m);
-        }
-      
+      return this.http.post(this.url,m);
+    }
+    
+    actualizarEtapaYFecha(
+      id: number,
+      data: { etapaLavado: string; fechaSecado: string; fotoDespues: string }
+    ) {
+      return this.http.patch(`${this.url}/etapaFecha/${id}`, data, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
+
     setList(listaNueva:Mueble[]){
       return this.http.put(this.url,listaNueva);
     }

@@ -1,0 +1,10 @@
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .mueble-card {
+    width: 300px;
+  }
+  
