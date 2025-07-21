@@ -11,6 +11,8 @@ import { ListarmuebleComponent } from './components/mueble/listarmueble/listarmu
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { EstadosmuebleComponent } from './components/mueble/estadosmueble/estadosmueble.component';
+import path from 'path';
+import { CameraComponent } from './components/camera/camera.component';
 
 export const routes: Routes = [
   {
@@ -24,6 +26,11 @@ export const routes: Routes = [
       path:'edicionescliente/:id',component:RegistrarclienteComponent
       },
     ],
+    },
+
+    {
+      path: 'camera',
+      component: CameraComponent
     },
 
     {
