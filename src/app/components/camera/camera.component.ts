@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-camera',
@@ -11,17 +11,24 @@ export class CameraComponent implements OnInit {
   @ViewChild('video',   { static: true }) videoRef!:   ElementRef<HTMLVideoElement>;
   @ViewChild('canvas',  { static: true }) canvasRef!:  ElementRef<HTMLCanvasElement>;
 
+  @Output() photoTaken = new EventEmitter<string>();
+
   photo: string | null = null;
   private stream!: MediaStream;
 
   async ngOnInit() {
-    try {
-      // Solicita acceso a la cámara
-      this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      this.videoRef.nativeElement.srcObject = this.stream;
-    } catch (err) {
-      console.error('Error accediendo a la cámara:', err);
-      alert('No fue posible acceder a la cámara.');
+    if (typeof window !== 'undefined' && !!navigator.mediaDevices) {
+      try {
+        this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        this.videoRef.nativeElement.srcObject = this.stream;
+      } catch (err) {
+        console.error('Error accediendo a la cámara:', err);
+        if (typeof alert !== 'undefined') {
+          alert('No fue posible acceder a la cámara.');
+        }
+      }
+    } else {
+      console.warn('La cámara solo está disponible en el navegador.');
     }
   }
 
@@ -39,6 +46,7 @@ export class CameraComponent implements OnInit {
 
     // Convierte a data URL (base64) y lo asigna a la propiedad photo
     this.photo = canvas.toDataURL('image/png');
+    this.photoTaken.emit(this.photo); // <-- Emite la foto al padre
   }
 
   // Opcional: detener la cámara al destruir el componente

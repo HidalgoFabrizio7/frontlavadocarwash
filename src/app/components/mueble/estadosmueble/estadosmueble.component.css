@@ -2,9 +2,191 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    justify-content: center;
+    padding: 0.5rem;
   }
   
   .mueble-card {
-    width: 300px;
+    width: 320px;
+    max-width: 95vw;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-shadow: 0 4px 18px rgba(25, 118, 210, 0.10), 0 1.5px 6px rgba(0,0,0,0.08);
+    border: 1.5px solid #e3f2fd;
+    transition: box-shadow 0.2s, border 0.2s;
+  }
+  .mueble-card:hover {
+    box-shadow: 0 8px 32px rgba(25, 118, 210, 0.18), 0 2px 8px rgba(0,0,0,0.12);
+    border: 1.5px solid #90caf9;
   }
   
+  .filtros-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
+  
+  .filtro-etapa,
+  .filtro-fecha,
+  .filtro-foto {
+    min-width: 180px;
+    flex: 1 1 220px;
+    max-width: 320px;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .foto-antes,
+  .foto-despues {
+    margin-top: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .img-foto-antes,
+  .img-foto-despues {
+    width: 90%;
+    max-width: 220px;
+    min-width: 120px;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #bbdefb;
+    background: #e3f2fd;
+    margin-top: 0.25rem;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+    transition: border 0.2s;
+  }
+  
+  .img-foto-despues {
+    border: 2px solid #c8e6c9;
+    background: #f1f8e9;
+  }
+  
+  .fotos-horizontales {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 0.7rem;
+  }
+  
+  .foto-antes,
+  .foto-despues {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  
+  .img-foto-antes,
+  .img-foto-despues {
+    width: 100%;
+    max-width: 140px;
+    min-width: 80px;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #bbdefb;
+    background: #e3f2fd;
+    margin-top: 0.25rem;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+    transition: border 0.2s;
+  }
+  
+  .img-foto-despues {
+    border: 2px solid #c8e6c9;
+    background: #f1f8e9;
+  }
+  
+  @media (max-width: 600px) {
+    .cards-container {
+      gap: 0.7rem;
+      padding: 0.2rem;
+    }
+    .mueble-card {
+      width: 99vw;
+      max-width: 99vw;
+      border-radius: 12px;
+      margin: 0 0 1rem 0;
+    }
+    .filtros-container {
+      flex-direction: column;
+      gap: 0.7rem;
+      align-items: stretch;
+      margin-bottom: 0.7rem;
+      padding: 0 0.2rem;
+    }
+    .filtro-etapa,
+    .filtro-fecha,
+    .filtro-foto {
+      min-width: 0;
+      max-width: 100vw;
+      flex: 1 1 100%;
+      align-items: stretch;
+    }
+    .foto-antes,
+    .foto-despues {
+      margin-top: 0.4rem;
+    }
+    .img-foto-antes,
+    .img-foto-despues {
+      width: 98%;
+      max-width: 98vw;
+      min-width: 80px;
+      border-radius: 7px;
+      margin-top: 0.15rem;
+    }
+    .fotos-horizontales {
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .img-foto-antes,
+    .img-foto-despues {
+      max-width: 44vw;
+      min-width: 60px;
+      border-radius: 7px;
+      margin-top: 0.15rem;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .mueble-card {
+      width: 99vw;
+      max-width: 99vw;
+      border-radius: 8px;
+    }
+    .filtros-container {
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .img-foto-antes,
+    .img-foto-despues {
+      max-width: 46vw;
+      min-width: 40px;
+      border-radius: 5px;
+    }
+  }
+  
+  .mueble-card .mat-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1976d2;
+    background: linear-gradient(90deg, #e3f2fd 60%, #bbdefb 100%);
+    padding: 0.75rem 1rem 0.75rem 1rem;
+    margin: 0 -1rem 0.5rem -1rem;
+    border-bottom: 2px solid #90caf9;
+    border-radius: 12px 12px 0 0;
+    letter-spacing: 0.5px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+  }

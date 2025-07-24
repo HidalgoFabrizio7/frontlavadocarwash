@@ -1,13 +1,13 @@
 <div class="camera-container">
-  <!-- Vista previa de la cámara -->
-  <video #video autoplay playsinline></video>
+  <div class="camera-frames-row">
+    <video #video class="camera-video" autoplay playsinline></video>
+    <img *ngIf="photo" class="camera-image" [src]="photo" alt="Foto tomada">
+  </div>
 
-  <!-- Botón para capturar -->
-  <button (click)="capture()">Tomar foto</button>
+  <div class="camera-actions">
+    <button (click)="capture()">Tomar foto</button>
+  </div>
 
   <!-- Canvas invisible, solo para capturar imagen -->
   <canvas #canvas hidden></canvas>
-
-  <!-- Vista de la foto tomada -->
-  <img *ngIf="photo" [src]="photo" alt="Foto tomada">
 </div>

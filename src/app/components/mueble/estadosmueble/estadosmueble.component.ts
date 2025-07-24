@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { CameraComponent } from '../../camera/camera.component'; // Asegúrate que la ruta es correcta
 
 @Component({
   selector: 'app-estadosmueble',
@@ -28,7 +29,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatNativeDateModule,
     MatInputModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    CameraComponent // Ya está agregado, solo asegúrate que es standalone o importa el módulo si es necesario
   ],
   templateUrl: './estadosmueble.component.html',
   styleUrl: './estadosmueble.component.css'
@@ -66,7 +68,9 @@ export class EstadosmuebleComponent implements OnInit {
           ...m,
           fechaSecado: m.fechaSecado ? new Date(m.fechaSecado) : new Date() // ⚠️ valor por defecto si viene vacío
         }));
-  
+
+      console.log('Muebles filtrados:', filtrados); // <-- Log de los muebles filtrados
+
       // Aseguramos que el tipo sea exactamente Mueble[]
       this.listaMuebles = filtrados as Mueble[];
       this.actualizarPaginacion();
@@ -105,9 +109,15 @@ export class EstadosmuebleComponent implements OnInit {
     }
   }  
 
+  onFotoDespuesCapturada(base64: string) {
+    this.fotoDespuesGlobal = base64;
+    // Opcional: mostrar previsualización o feedback
+    console.log('Foto capturada desde cámara:', base64);
+  }
+
   cambiarEtapa(mueble: Mueble): void {
     let nuevaEtapa = '';
-  
+
     if (mueble.etapaLavado.toLowerCase() === 'lavado') {
       nuevaEtapa = 'Secado';
     } else if (mueble.etapaLavado.toLowerCase() === 'secado') {
@@ -115,15 +125,17 @@ export class EstadosmuebleComponent implements OnInit {
     } else {
       return;
     }
-  
+
     const fechaFormateada = this.formatearFechaSumandoUnDia(this.fechaSecadoGlobal);
-  
+
     const data = {
       etapaLavado: nuevaEtapa,
       fechaSecado: fechaFormateada,
       fotoDespues: this.fotoDespuesGlobal
     };
-  
+
+    console.log('Data enviada al actualizar mueble:', data); // <-- Log aquí
+
     this.muebleService.actualizarEtapaYFecha(mueble.idMueble, data).subscribe({
       next: () => {
         this.cargarMueblesPorEtapa();
