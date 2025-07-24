@@ -1,6 +1,7 @@
 mat-toolbar {
   background-color: rgb(67, 160, 71);
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
@@ -13,27 +14,26 @@ mat-toolbar {
   width: calc(100% - 20px);
 }
 
-
-/* Ajustar el logo */
 .logoIcon {
   height: 50px;
   border-radius: 10px;
+  margin-right: 8px;
 }
 
-/* Nombre de la empresa  */
+
 .website-name {
   font-size: 24px;
   font-weight: bold;
   color: white;
 }
 
-/* Contenedor de los botones para distribuir mejor */
+
 .buttons-container {
   display: flex;
   gap: 15px;
 }
 
-/* Estilo de los botones */
+
 button {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
@@ -42,10 +42,11 @@ button {
   transition: background 0.3s ease;
 }
 
-/* Cambio de color al pasar el mouse */
+
 button:hover {
   background-color: rgba(255, 255, 255, 0.4);
 }
+
 
 mat-icon {
   vertical-align: middle;
@@ -53,4 +54,222 @@ mat-icon {
 }
 
 
+.brand-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
 
+/* Responsive */
+@media (max-width: 768px) {
+  mat-toolbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 5px;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .logoIcon {
+    height: 40px;
+    margin-bottom: 5px;
+  }
+  .website-name {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  .main-nav {
+    width: 100%;
+  }
+  .buttons-container {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+  .menu-btn {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .brand-container {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .buttons-container {
+    display: none;
+  }
+  .hamburger-menu {
+    display: flex !important;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(56, 142, 60, 1); /* Fondo verde consistente */
+    border: none;
+    color: #fff !important;
+    font-size: 28px;
+    margin-left: 0;
+    margin-right: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .hamburger-menu:active,
+  .hamburger-menu:focus {
+    background: #2e7031 !important; /* Verde más oscuro al hacer clic */
+    color: #fff !important;
+  }
+  .website-name {
+    flex: 1;
+  }
+}
+
+.hamburger-menu {
+  display: none;
+  margin-right: 8px;
+  background: rgba(56, 142, 60, 1); /* Fondo verde consistente */
+  color: #fff !important;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+/* Menú móvil */
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(67, 160, 71, 0.98);
+  padding: 15px 10px;
+  border-radius: 10px;
+  margin: 10px;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* Submenú móvil: fondo verde, texto e iconos negros */
+.mobile-submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 24px;
+  margin-bottom: 8px;
+  border-left: 2px solid #66bb6a;
+  padding-left: 6px;
+  background: #388e3c !important;
+  border-radius: 0 0 8px 8px;
+}
+
+.mobile-submenu button {
+  color: #000 !important;
+  background: none;
+  font-weight: 500;
+  text-align: left;
+  border-radius: 6px;
+  padding-left: 12px;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.mobile-submenu button:hover {
+  background: rgba(0,0,0,0.08);
+  color: #222 !important;
+}
+
+.mobile-submenu mat-icon {
+  color: #000 !important;
+  margin-right: 8px;
+}
+
+.submenu-arrow {
+  margin-left: auto;
+  color: #000000 !important;
+}
+
+/* --- MENÚ DESPLEGABLE DE ESCRITORIO (mat-menu) --- */
+.menu-dropdown {
+  background: #388e3c !important;
+  color: #000 !important;
+  border-radius: 10px !important;
+  min-width: 170px;
+  padding: 4px 0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  border: 1px solid #2e7031;
+}
+
+.menu-dropdown .mat-menu-content {
+  background: #388e3c !important;
+  color: #000 !important;
+  border-radius: 10px !important;
+}
+
+.menu-dropdown .mat-menu-item,
+.menu-dropdown .menu-item {
+  background: #388e3c !important;
+  color: #000 !important;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 6px;
+  margin: 2px 6px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.menu-dropdown .mat-menu-item:hover,
+.menu-dropdown .menu-item:hover {
+  background: rgba(0,0,0,0.08) !important;
+  color: #222 !important;
+}
+
+.menu-dropdown mat-icon {
+  color: #000 !important;
+  margin-right: 8px;
+}
+
+/* --- MENÚ MÓVIL: Colores y diseño unificados --- */
+.mobile-menu,
+.mobile-menu button {
+  color: #fff !important;
+  background: none;
+  font-weight: 500;
+}
+
+.mobile-menu button {
+  text-align: left;
+  border-radius: 6px;
+  padding-left: 12px;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.mobile-menu button:hover {
+  background: rgba(255,255,255,0.12);
+  color: #e8f5e9 !important;
+}
+
+.mobile-menu mat-icon {
+  color: #fff !important;
+  margin-right: 8px;
+}
+
+.menu-item {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: rgba(67, 160, 71, 0.98);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #000000;
+}

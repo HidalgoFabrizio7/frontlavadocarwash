@@ -1,19 +1,36 @@
+<!-- Barra principal de navegación -->
 <mat-toolbar class="custom-toolbar">
-  <img src= "image/logocarwash.png" alt="logoicon" class="logoIcon">
+  <!-- Contenedor para logo, hamburguesa y nombre -->
+  <div class="brand-container">
+    <!-- Logo de la empresa -->
+    <img src="image/logocarwash.png" alt="logoicon" class="logoIcon">
+    <!-- Nombre de la empresa -->
+    <span class="website-name">Empresa</span>
 
-  <span class="website-name">Empresa</span>
+    <!-- Botón hamburguesa solo visible en móviles, a la derecha del logo -->
+    <button class="hamburger-menu" mat-icon-button (click)="showMobileMenu = !showMobileMenu">
+      <mat-icon>{{ showMobileMenu ? 'close' : 'menu' }}</mat-icon>
+    </button>
 
+  </div>
+
+  <!-- Navegación principal -->
   <nav class="main-nav">
+    <!-- Contenedor de los botones del menú (oculto en móviles) -->
     <div class="buttons-container">
+      <!-- Menú Cliente -->
       <button mat-button class="menu-btn menu-cliente" [matMenuTriggerFor]="menuCliente">
         <mat-icon>healing</mat-icon> Cliente
       </button>
+      <!-- Menú Cobranza -->
       <button mat-button class="menu-btn menu-cobranza" [matMenuTriggerFor]="menuCobranza">
         <mat-icon>medication</mat-icon> Cobranza
       </button>
+      <!-- Menú Mueble -->
       <button mat-button class="menu-btn menu-mueble" [matMenuTriggerFor]="menuMueble">
         <mat-icon>restaurant</mat-icon> Mueble
       </button>
+      <!-- Menú Servicio -->
       <button mat-button class="menu-btn menu-servicio" [matMenuTriggerFor]="menuServicio">
         <mat-icon>people</mat-icon> Servicio
       </button>
@@ -21,25 +38,101 @@
   </nav>
 </mat-toolbar>
 
-<!-- Menús -->
+<!-- Menú móvil desplegable -->
+<div *ngIf="showMobileMenu" class="mobile-menu">
+  <!-- Menú Cliente -->
+  <button mat-button (click)="mobileSubMenu = (mobileSubMenu === 'cliente' ? null : 'cliente')">
+    <mat-icon>healing</mat-icon> Cliente
+    <mat-icon class="submenu-arrow">{{ mobileSubMenu === 'cliente' ? 'expand_less' : 'expand_more' }}</mat-icon>
+  </button>
+  <div *ngIf="mobileSubMenu === 'cliente'" class="mobile-submenu">
+    <button mat-button routerLink="/cliente" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>list</mat-icon> Listar
+    </button>
+    <button mat-button routerLink="/cliente/nuevocliente" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>person_add</mat-icon> Registrar
+    </button>
+  </div>
+  <!-- Menú Cobranza -->
+  <button mat-button (click)="mobileSubMenu = (mobileSubMenu === 'cobranza' ? null : 'cobranza')">
+    <mat-icon>medication</mat-icon> Cobranza
+    <mat-icon class="submenu-arrow">{{ mobileSubMenu === 'cobranza' ? 'expand_less' : 'expand_more' }}</mat-icon>
+  </button>
+  <div *ngIf="mobileSubMenu === 'cobranza'" class="mobile-submenu">
+    <button mat-button routerLink="/cobranza" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>list</mat-icon> Listar
+    </button>
+    <button mat-button routerLink="/cobranza/nuevocobranza" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>add_circle</mat-icon> Registrar
+    </button>
+  </div>
+  <!-- Menú Mueble -->
+  <button mat-button (click)="mobileSubMenu = (mobileSubMenu === 'mueble' ? null : 'mueble')">
+    <mat-icon>restaurant</mat-icon> Mueble
+    <mat-icon class="submenu-arrow">{{ mobileSubMenu === 'mueble' ? 'expand_less' : 'expand_more' }}</mat-icon>
+  </button>
+  <div *ngIf="mobileSubMenu === 'mueble'" class="mobile-submenu">
+    <button mat-button routerLink="/mueble" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>list</mat-icon> Listar
+    </button>
+    <button mat-button routerLink="/mueble/nuevomueble" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>add_box</mat-icon> Registrar
+    </button>
+  </div>
+  <!-- Menú Servicio -->
+  <button mat-button (click)="mobileSubMenu = (mobileSubMenu === 'servicio' ? null : 'servicio')">
+    <mat-icon>people</mat-icon> Servicio
+    <mat-icon class="submenu-arrow">{{ mobileSubMenu === 'servicio' ? 'expand_less' : 'expand_more' }}</mat-icon>
+  </button>
+  <div *ngIf="mobileSubMenu === 'servicio'" class="mobile-submenu">
+    <button mat-button routerLink="/servicio" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>list</mat-icon> Listar
+    </button>
+    <button mat-button routerLink="/servicio/nuevoservicio" (click)="showMobileMenu = false; mobileSubMenu = null;">
+      <mat-icon>add</mat-icon> Registrar
+    </button>
+  </div>
+</div>
+
+<!-- Menús desplegables para cada sección (desktop) -->
+<!-- Menú Cliente -->
 <mat-menu #menuCliente="matMenu" class="menu-dropdown menu-cliente-dropdown">
-  <button mat-menu-item routerLink="/cliente" class="menu-item">Listar</button>
-  <button mat-menu-item routerLink="/cliente/nuevocliente" class="menu-item">Registrar</button>
+  <button mat-menu-item routerLink="/cliente" class="menu-item">
+    <mat-icon>list</mat-icon> Listar
+  </button>
+  <button mat-menu-item routerLink="/cliente/nuevocliente" class="menu-item">
+    <mat-icon>person_add</mat-icon> Registrar
+  </button>
 </mat-menu>
 
+<!-- Menú Cobranza -->
 <mat-menu #menuCobranza="matMenu" class="menu-dropdown menu-cobranza-dropdown">
-  <button mat-menu-item routerLink="/cobranza" class="menu-item">Listar</button>
-  <button mat-menu-item routerLink="/cobranza/nuevocobranza" class="menu-item">Registrar</button>
+  <button mat-menu-item routerLink="/cobranza" class="menu-item">
+    <mat-icon>list</mat-icon> Listar
+  </button>
+  <button mat-menu-item routerLink="/cobranza/nuevocobranza" class="menu-item">
+    <mat-icon>add_circle</mat-icon> Registrar
+  </button>
 </mat-menu>
 
+<!-- Menú Mueble -->
 <mat-menu #menuMueble="matMenu" class="menu-dropdown menu-mueble-dropdown">
-  <button mat-menu-item routerLink="/mueble" class="menu-item">Listar</button>
-  <button mat-menu-item routerLink="/mueble/nuevomueble" class="menu-item">Registrar</button>
+  <button mat-menu-item routerLink="/mueble" class="menu-item">
+    <mat-icon>list</mat-icon> Listar
+  </button>
+  <button mat-menu-item routerLink="/mueble/nuevomueble" class="menu-item">
+    <mat-icon>add_box</mat-icon> Registrar
+  </button>
 </mat-menu>
 
+<!-- Menú Servicio -->
 <mat-menu #menuServicio="matMenu" class="menu-dropdown menu-servicio-dropdown">
-  <button mat-menu-item routerLink="/servicio" class="menu-item">Listar</button>
-  <button mat-menu-item routerLink="/servicio/nuevoservicio" class="menu-item">Registrar</button>
+  <button mat-menu-item routerLink="/servicio" class="menu-item">
+    <mat-icon>list</mat-icon> Listar
+  </button>
+  <button mat-menu-item routerLink="/servicio/nuevoservicio" class="menu-item">
+    <mat-icon>add</mat-icon> Registrar
+  </button>
 </mat-menu>
 
 <!---
@@ -57,6 +150,9 @@
     Rol:
     <span>{{ role }}</span>
   </button>
+
+<router-outlet></router-outlet>
 </mat-menu> -->
 
+<!-- Espacio para renderizar las rutas hijas -->
 <router-outlet></router-outlet>
