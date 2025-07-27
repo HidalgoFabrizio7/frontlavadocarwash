@@ -1,12 +1,12 @@
 /* ---------- Barra principal y estructura ---------- */
 .custom-toolbar {
-  background: #43a047;
-  border-radius: 15px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  background: var(--color-primary);
+  border-radius: var(--radius-main);
+  box-shadow: var(--shadow-toolbar);
   margin: 20px auto 0;
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   width: calc(100% - 40px);
-  padding: 0 24px;
+  padding: 0 var(--container-padding);
   min-height: 76px;
   display: flex;
   align-items: center;
@@ -32,14 +32,14 @@
 .logoIcon {
   height: 40px;
   width: auto;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   object-fit: contain;
 }
 
 .website-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-white);
   white-space: nowrap;
   user-select: none;
   letter-spacing: 0.3px;
@@ -48,9 +48,9 @@
 /* ---------- Botón hamburguesa ---------- */
 .hamburger-menu {
   display: none;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   background: transparent !important;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   font-size: 1.5rem;
   padding: 8px;
   z-index: 1501;
@@ -69,11 +69,11 @@
 }
 
 .menu-btn {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   font-weight: 600;
   font-size: 16px;
   background: transparent !important;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   padding: 8px 16px;
   transition: all 0.2s ease;
   display: flex;
@@ -84,14 +84,14 @@
 }
 
 .menu-btn .mat-icon {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   margin-right: 6px;
 }
 
 .menu-btn:hover,
 .menu-btn:focus {
   background: rgba(255,255,255,0.15) !important;
-  color: #b2ff59 !important;
+  color: var(--color-accent) !important;
 }
 
 .menu-btn:active {
@@ -121,7 +121,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   background: transparent !important;
   font-size: 1.75rem;
   z-index: 2200;
@@ -141,9 +141,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   background: transparent !important;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   font-size: 1.2rem;
   font-weight: 600;
   text-align: left;
@@ -152,7 +152,7 @@
 }
 
 .mobile-menu-btn .mat-icon {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   margin: 0 8px 0 0;
 }
 
@@ -165,7 +165,7 @@
 .mobile-menu-btn:hover,
 .mobile-menu-btn:focus {
   background: rgba(255,255,255,0.15) !important;
-  color: #b2ff59 !important;
+  color: var(--color-accent) !important;
 }
 
 .mobile-menu-btn:active {
@@ -176,7 +176,7 @@
   list-style: none;
   padding: 8px 0 8px 24px;
   margin: 0;
-  background: #388e3c;
+  background: var(--color-primary-dark);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -191,7 +191,7 @@
 
 .mobile-submenu-list li button {
   width: 100%;
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   background: transparent !important;
   font-weight: 500;
   font-size: 1rem;
@@ -202,32 +202,32 @@
 }
 
 .mobile-submenu-list li button .mat-icon {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   margin-right: 8px;
 }
 
 .mobile-submenu-list li button:hover,
 .mobile-submenu-list li button:focus {
   background: rgba(255,255,255,0.1) !important;
-  color: #b2ff59 !important;
+  color: var(--color-accent) !important;
 }
 
 /* ---------- Menú desplegable (escritorio) ---------- */
 .menu-dropdown {
-  background: #388e3c !important;
+  background: var(--color-primary-dark) !important;
   border-radius: 8px !important;
   min-width: 180px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
 }
 
 .menu-dropdown .mat-menu-content {
-  background: #388e3c !important;
+  background: var(--color-primary-dark) !important;
   padding: 8px !important;
 }
 
 .menu-dropdown .mat-menu-item,
 .menu-dropdown .menu-item {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   background: transparent !important;
   font-weight: 500;
   font-size: 15px;
@@ -240,7 +240,7 @@
 
 .menu-dropdown .mat-menu-item .mat-icon,
 .menu-dropdown .menu-item .mat-icon {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   margin-right: 8px;
 }
 
@@ -249,20 +249,20 @@
 .menu-dropdown .mat-menu-item.cdk-program-focused,
 .menu-dropdown .menu-item:hover {
   background: rgba(255,255,255,0.15) !important;
-  color: #b2ff59 !important;
+  color: var(--color-accent) !important;
 }
 
 .menu-dropdown .mat-menu-item:hover .mat-icon,
 .menu-dropdown .mat-menu-item.cdk-focused .mat-icon,
 .menu-dropdown .mat-menu-item.cdk-program-focused .mat-icon {
-  color: #b2ff59 !important;
+  color: var(--color-accent) !important;
 }
 
 /* ---------- Overrides para Angular Material ---------- */
 button.mat-button,
 button.mat-icon-button,
 button.mat-menu-item {
-  color: #ffffff !important;
+  color: var(--color-white) !important;
   background: transparent !important;
   text-transform: none !important;
   box-shadow: none !important;
@@ -275,7 +275,7 @@ button.mat-icon-button:hover,
 button.mat-icon-button:focus,
 button.mat-menu-item:hover,
 button.mat-menu-item:focus {
-  color: #b2ff59 !important;
+  color: var(--color-accent) !important;
   background: rgba(255,255,255,0.15) !important;
 }
 
@@ -283,7 +283,7 @@ button.mat-menu-item:focus {
 @media (max-width: 1280px) {
   .custom-toolbar {
     width: calc(100% - 20px);
-    padding: 0 16px;
+    padding: 0 var(--container-padding-md);
   }
   .brand-container {
     margin-right: 16px;
@@ -306,7 +306,7 @@ button.mat-menu-item:focus {
 
 @media (max-width: 600px) {
   .custom-toolbar {
-    padding: 0 12px;
+    padding: 0 var(--container-padding-sm);
     min-height: 64px;
   }
   .brand-container {

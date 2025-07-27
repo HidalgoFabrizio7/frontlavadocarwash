@@ -104,6 +104,11 @@
             <mat-icon>add_box</mat-icon> Registrar
           </button>
         </li>
+        <li>
+          <button mat-button routerLink="/mueble/estadomueble" (click)="closeMobileMenu()">
+            <mat-icon>add_box</mat-icon> Registrar
+          </button>
+        </li>
       </ul>
     </li>
     <!-- Menú Servicio -->
@@ -155,6 +160,9 @@
   </button>
   <button mat-menu-item routerLink="/mueble/nuevomueble" class="menu-item">
     <mat-icon>add_box</mat-icon> Registrar
+  </button>
+  <button mat-menu-item routerLink="/mueble/estadomueble" class="menu-item">
+    <mat-icon>add_box</mat-icon> Seguimiento
   </button>
 </mat-menu>
 
