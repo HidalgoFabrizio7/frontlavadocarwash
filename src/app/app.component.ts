@@ -20,7 +20,20 @@ import { MatButtonModule } from '@angular/material/button';
     styleUrl: './app.component.css'
 })
 export class AppComponent {
+  
   title = 'frontlavadocarwash';
   showMobileMenu = false;
   mobileSubMenu: string | null = null;
+
+  toggleMobileMenu() {
+    this.showMobileMenu = !this.showMobileMenu;
+    this.mobileSubMenu = null; // opcional: cerrar submenús al cerrar
+  }
+  closeMobileMenu() {
+    this.showMobileMenu = false;
+    this.mobileSubMenu = null;
+  }
+
 }
+
+
