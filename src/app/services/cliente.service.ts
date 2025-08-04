@@ -20,8 +20,9 @@ export class ClienteService {
   }
 
   setList(listaNueva:Cliente[]){
-    return this.http.put(this.url,listaNueva);
+    this.listaCambio.next(listaNueva);
   }
+
   getLista(){
     return this.listaCambio.asObservable();
   }

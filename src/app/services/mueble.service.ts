@@ -26,14 +26,15 @@ export class MuebleService {
         headers: { 'Content-Type': 'application/json' }
       });
     }
-    
 
     setList(listaNueva:Mueble[]){
-      return this.http.put(this.url,listaNueva);
+      this.listaCambio.next(listaNueva);
     }
+    
     getLista(){
       return this.listaCambio.asObservable();
     }
+    
     listId(id:number){
       return this.http.get<Mueble>(`${this.url}/${id}`);
     }

@@ -9,23 +9,22 @@ import { ServicioComponent } from './components/servicio/servicio.component';
 import { RegistrarservicioComponent } from './components/servicio/registrarservicio/registrarservicio.component';
 import { ListarmuebleComponent } from './components/mueble/listarmueble/listarmueble.component';
 import { RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
 import { EstadosmuebleComponent } from './components/mueble/estadosmueble/estadosmueble.component';
-import path from 'path';
 import { CameraComponent } from './components/camera/camera.component';
 
 export const routes: Routes = [
-  {
+    {
     path: 'cliente',
     component: ClienteComponent,
     children: [
       { 
-      path: 'nuevocliente', component: RegistrarclienteComponent
+      path: 'nuevocliente', component: RegistrarclienteComponent,
       },
       {
       path:'edicionescliente/:id',component:RegistrarclienteComponent
       },
     ],
+
     },
 
     {
@@ -98,9 +97,3 @@ export const routes: Routes = [
     },
     */
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

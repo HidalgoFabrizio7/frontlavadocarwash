@@ -85,7 +85,9 @@ export class RegistrarservicioComponent implements OnInit {
                 fecharecojo: ['', Validators.required],
                 fotoNoObligatoriaServicio: [''],
                 fotoAntesServicio: [''],
-                fotoDespuesServicio: ['']
+                fotoDespuesServicio: [''],
+                estadoServicio: [''],
+                direccionServicio: ['']
             });
 
             if (this.edicion) {
@@ -125,6 +127,8 @@ export class RegistrarservicioComponent implements OnInit {
         const cliente = this.listaClientes.find(c => c.idClientes === idCliente);
         if (cliente) {
             this.form.get('cliente')?.setValue(cliente.nombreCliente);
+            // Pone la dirección del cliente en el campo de dirección del servicio
+            this.form.get('direccionServicio')?.setValue(cliente.direccionClientes);
         }
     }
 
@@ -147,6 +151,8 @@ export class RegistrarservicioComponent implements OnInit {
             this.servicio.fotoNoObligatoriaServicio = this.form.value.fotoNoObligatoriaServicio;
             this.servicio.fotoAntesServicio = this.form.value.fotoAntesServicio;
             this.servicio.fotoDespuesServicio = this.form.value.fotoDespuesServicio;
+            this.servicio.estadoServicio = this.form.value.estadoServicio;
+            this.servicio.direccionServicio = this.form.value.direccionServicio;
 
             console.log('Datos del servicio a enviar:', this.servicio);
 
@@ -189,6 +195,8 @@ export class RegistrarservicioComponent implements OnInit {
                     fecharecojo: new FormControl(data.fechaRecojoServicio),
                     fotoAntesServicio: new FormControl(data.fotoAntesServicio),
                     fotoDespuesServicio: new FormControl(data.fotoDespuesServicio),
+                    estadoServicio: new FormControl(data.estadoServicio),
+                    direccionServicio: new FormControl(data.direccionServicio)
                 });
             });
         }

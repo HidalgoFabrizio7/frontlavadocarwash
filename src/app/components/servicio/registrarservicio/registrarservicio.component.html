@@ -43,6 +43,32 @@
                 </div>
             </div>
 
+            <!-- Dirección del Servicio -->
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Dirección del servicio</mat-label>
+                    <input matInput placeholder="Ingrese dirección" formControlName="direccionServicio" [readonly]="edicion" />
+                    <mat-error *ngIf="form.get('direccionServicio')?.hasError('required')">
+                        La dirección del servicio es obligatoria.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- Estado del Servicio -->
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Estado del servicio</mat-label>
+                    <mat-select formControlName="estadoServicio" [disabled]="edicion">
+                        <mat-option value="Abierto">Abierto</mat-option>
+                        <mat-option value="En Proceso">En Proceso</mat-option>
+                        <mat-option value="Completado">Completado</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('estadoServicio')?.hasError('required')">
+                        El estado del servicio es obligatorio.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
             <!-- Tipo de Servicio -->
             <div class="form-group">
                 <mat-form-field class="example-full-width">

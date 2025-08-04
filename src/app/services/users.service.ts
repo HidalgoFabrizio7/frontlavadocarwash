@@ -11,9 +11,11 @@ export class UsersService {
   private url = `${base_url}/usuarios`;
   private listaCambio = new Subject<Users[]>();
   constructor(private http: HttpClient) { }
+  
   list(){
     return this.http.get<Users[]>(`${base_url}/listarini`);
   }
+
   insert(u: Users){
     return this.http.post(`${base_url}/crearcuenta`, u);
   }
@@ -25,6 +27,7 @@ export class UsersService {
   getList() {
     return this.listaCambio.asObservable();
   }
+  
   setList(listaNueva: Users[]) {
     this.listaCambio.next(listaNueva);
   }
