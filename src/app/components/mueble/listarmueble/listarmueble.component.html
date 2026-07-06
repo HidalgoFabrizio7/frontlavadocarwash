@@ -10,6 +10,8 @@
             <td mat-cell *matCellDef="let element">{{ element.idMueble }}</td>
         </ng-container>
 
+        
+
         <!-- Name Column -->
         <ng-container matColumnDef="descripcion">
             <th mat-header-cell *matHeaderCellDef>Descripción Mueble</th>
@@ -29,7 +31,7 @@
         <ng-container matColumnDef="accion01">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let element">
-                <button mat-raised-button color="primary" [routerLink]="['edicion', element.idMueble]">
+                <button mat-raised-button color="primary" (click)="onEditMueble(element.idMueble)">
                     <mat-icon>edit</mat-icon>
                 </button>
             </td>
@@ -50,3 +52,7 @@
 </div>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+
+<ng-container *ngIf="editMuebleId !== 0">
+    <app-registrarmueble *ngIf="forceRender" [muebleId]="editMuebleId" [key]="muebleKey"></app-registrarmueble>
+</ng-container>

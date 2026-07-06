@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,9 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table'
 import { ServicioService } from '../../../services/servicio.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Servicio } from '../../../models/Servicio';
+import { After } from 'v8';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 @Component({
     selector: 'app-listarservicio',
     imports: [
@@ -15,49 +18,71 @@ import { Servicio } from '../../../models/Servicio';
         RouterModule,
         MatCardModule,
         CommonModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatSelectModule,
+        FormsModule
       ],
     templateUrl: './listarservicio.component.html',
     styleUrl: './listarservicio.component.css'
 })
-export class ListarservicioComponent implements OnInit{
-  datasource: MatTableDataSource<Servicio> = new MatTableDataSource();
-  displayedColumns: string[] = [
-    'codigo',
-    'tiposervicio',
-    'fechaenvio',
-    'fecharecojo',
-    'accion01',
-    'accion02'
-  ];
+export class ListarservicioComponent implements OnInit {
+  servicios: Servicio[] = [];
+  filteredServicios: Servicio[] = [];
+  selectedEstado: string = 'Abierto';
+
+  // Si quieres paginación con cards (opcional)
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(private sS:ServicioService){}
+  pageSize = 5;
+  pageIndex = 0;
+
+  constructor(private sS: ServicioService) { }
 
   ngOnInit(): void {
-    this.sS.list().subscribe((data) => {
-      this.datasource = new MatTableDataSource(data);
-      this.datasource.paginator = this.paginator;
+    this.sS.listarTodosOrdenados().subscribe((data) => {
+      this.servicios = data;
+      this.applyFilter();
     });
     this.sS.getLista().subscribe((data) => {
-      this.datasource = new MatTableDataSource(data);
-      this.datasource.paginator = this.paginator;
+      this.servicios = data;
+      this.applyFilter();
     });
   }
-  
-  eliminar(id: number) {
-    this.sS.eliminar(id).subscribe((data)=>{
-      this.sS.list().subscribe((data)=>{
-        this.sS.setList(data);
-        });
-      },
-      (error) => {
-        if (error.status === 500) {
-          alert("No se puede eliminar el servicio.");
-        } else {
-          alert("Ocurrió un error al intentar eliminar el servicio.");
-        }
-      }
-    );
+
+  applyFilter() {
+    if (this.selectedEstado === '' || !this.selectedEstado) {
+      this.filteredServicios = this.servicios.slice();
+    } else {
+      this.filteredServicios = this.servicios.filter(
+        x => x.estadoServicio === this.selectedEstado
+      );
+    }
+    // Reinicia paginación
+    this.pageIndex = 0;
   }
 
+  eliminar(id: number) {
+    this.sS.eliminar(id).subscribe(() => {
+      this.sS.list().subscribe((data) => {
+        this.sS.setList(data);
+      });
+    }, (error) => {
+      if (error.status === 500) {
+        alert("No se puede eliminar el servicio.");
+      } else {
+        alert("Ocurrió un error al intentar eliminar el servicio.");
+      }
+    });
+  }
+
+  // Si usas paginación con cards
+  get pagedServicios(): Servicio[] {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    return this.filteredServicios.slice(start, end);
+  }
+
+  onPageChange(event: any) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
 }

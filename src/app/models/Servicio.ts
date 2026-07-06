@@ -8,5 +8,7 @@ export class Servicio {
     fechaRecojoServicio: Date = new Date(); // Cambiado de string a Date
     fotoAntesServicio: string = "";
     fotoDespuesServicio: string = "";
+    estadoServicio: string = ""; // Abierto, En Proceso, Completado 
+    direccionServicio: string = "";
     cliente: Cliente = new Cliente();
 }

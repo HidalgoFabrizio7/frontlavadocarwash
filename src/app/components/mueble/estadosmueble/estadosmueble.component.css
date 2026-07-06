@@ -1,0 +1,315 @@
+/* =======================================================
+   CONTENEDORES PRINCIPALES
+======================================================= */
+
+/* Contenedor de todas las cards */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  border-radius: var(--radius-card);
+  padding: 1rem 0.6rem;
+  margin-top: 1rem;
+}
+@media (max-width: 600px) {
+  .cards-container {
+    border-radius: 11px;
+    padding: 0.5rem 0.2rem;
+    gap: 0.7rem;
+  }
+}
+
+/* Card individual de mueble */
+.mueble-card {
+  width: 320px;
+  max-width: 95vw;
+  margin: 0 auto 1.5rem auto;
+  box-sizing: border-box;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: var(--shadow-toolbar);
+  border: 1px solid var(--color-secondary-light);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mueble-card:hover {
+  border-color: var(--color-secondary);
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.mueble-card mat-card-title {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 10px 16px;
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+.mueble-card mat-card-content {
+  padding: var(--container-padding-md);
+  flex-grow: 1;
+}
+
+.mueble-card mat-card-content p {
+  margin: 0.5rem 0;
+  color: var(--color-title);
+  font-size: 14px;
+}
+
+.mueble-card mat-card-content .fotos-horizontales {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.mueble-card mat-card-content .foto-antes,
+.mueble-card mat-card-content .foto-despues {
+  flex: 1;
+  text-align: center;
+}
+
+.mueble-card mat-card-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-main);
+  border: 1px solid var(--color-secondary-light);
+  padding: 5px;
+}
+
+.mueble-card mat-card-actions {
+  padding: var(--container-padding-md);
+  border-top: 1px solid var(--color-secondary-light);
+  text-align: center;
+}
+
+.mueble-card button {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-btn);
+  padding: 8px;
+  font-weight: 500;
+}
+
+.mueble-card button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+@media (max-width: 600px) {
+  .mueble-card {
+    width: 95vw;
+    max-width: 95vw;
+    margin: 0 0 1rem 0;
+    border-radius: 12px;
+  }
+
+  .mueble-card mat-card-content .fotos-horizontales {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .mueble-card {
+    border-radius: 8px;
+  }
+
+  .mueble-card mat-card-content img {
+    max-width: 90%;
+  }
+}
+
+/* =======================================================
+   FILTROS (Barra superior)
+======================================================= */
+
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 20px 0px 0;
+  max-width: var(--container-max-width);
+  width: calc(100%);
+  padding: 0 calc(var(--container-padding) * 0.5);
+  
+}
+@media (max-width: 600px) {
+  .filtros-container {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+    margin-bottom: 0.8rem;
+  }
+}
+@media (max-width: 400px) {
+  .filtros-container {
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Fondo más limpio y bordes suaves para cada filtro */
+.filtro-etapa,
+.filtro-fecha {
+  background: var(--color-white);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px 0 rgba(25, 118, 210, 0.07);
+  border: 1.5px solid var(--color-secondary-light);
+  padding: 0.85rem 0.8rem 0.6rem 0.8rem;
+  display: flex;
+  align-items: flex-end;
+  min-width: 160px;
+  max-width: 340px;
+  margin-bottom: 0.3rem;
+  transition: box-shadow 0.2s, border 0.2s, background 0.18s;
+}
+.filtro-etapa:focus-within,
+.filtro-fecha:focus-within {
+  border-color: var(--color-secondary);
+  box-shadow: 0 4px 22px 0 rgba(25, 118, 210, 0.14);
+}
+@media (max-width: 600px) {
+  .filtro-etapa,
+  .filtro-fecha {
+    border-radius: 10px;
+    min-width: 0;
+    max-width: 100vw;
+    padding: 0.6rem 0.4rem 0.4rem 0.4rem;
+  }
+}
+
+.filtro-etapa mat-form-field,
+.filtro-fecha mat-form-field {
+  width: 100%;
+}
+.filtro-etapa .mat-form-field-label,
+.filtro-fecha .mat-form-field-label {
+  color: var(--color-secondary) !important;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  opacity: 0.90;
+}
+.filtro-etapa .mat-form-field-appearance-fill .mat-form-field-flex,
+.filtro-fecha .mat-form-field-appearance-fill .mat-form-field-flex {
+  background: var(--color-bg) !important;
+  border-radius: 7px !important;
+}
+.filtro-etapa .mat-form-field-underline,
+.filtro-fecha .mat-form-field-underline {
+  background-color: #90caf9 !important;
+  border-radius: 7px;
+}
+.filtro-etapa .mat-select-arrow,
+.filtro-fecha .mat-datepicker-toggle-default-icon {
+  color: var(--color-secondary) !important;
+}
+
+/* ===============================
+   BOTÓN DE LA CÁMARA (Tomar foto)
+=============================== */
+app-camera button, .tomar-foto-btn {
+  width: 100%;
+  border-radius: 12px;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px 0 rgba(25, 118, 210, 0.14);
+  margin: 0.6rem 0 1rem 0;
+  padding: 0.9rem 0;
+  border: none;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+app-camera button:hover, .tomar-foto-btn:hover {
+  background: #1565c0;
+  box-shadow: 0 6px 18px 0 rgba(25, 118, 210, 0.17);
+}
+
+/* =======================================================
+   FOTOS (antes/después)
+======================================================= */
+
+/* Contenedor horizontal para fotos */
+.fotos-horizontales {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 0.7rem;
+}
+.foto-antes,
+.foto-despues {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  margin-top: 0.7rem;
+}
+
+/* Imágenes: estilo común */
+.img-foto-antes,
+.img-foto-despues {
+  width: 100%;
+  max-width: 140px;
+  min-width: 80px;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #bbdefb;
+  background: var(--color-secondary-light);
+  margin-top: 0.25rem;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  transition: border 0.2s;
+}
+.img-foto-despues {
+  border: 2px solid #c8e6c9;
+  background: #f1f8e9;
+}
+@media (max-width: 600px) {
+  .img-foto-antes,
+  .img-foto-despues {
+    width: 98%;
+    max-width: 44vw;
+    min-width: 60px;
+    border-radius: 7px;
+    margin-top: 0.15rem;
+  }
+}
+@media (max-width: 400px) {
+  .img-foto-antes,
+  .img-foto-despues {
+    max-width: 46vw;
+    min-width: 40px;
+    border-radius: 5px;
+  }
+}
+
+/* =======================================================
+   TÍTULO DE LA CARD
+======================================================= */
+.mueble-card .mat-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  background: linear-gradient(90deg, var(--color-secondary-light) 60%, #bbdefb 100%);
+  padding: 0.75rem 1rem 0.75rem 1rem;
+  margin: 0 -1rem 0.5rem -1rem;
+  border-bottom: 2px solid #90caf9;
+  border-radius: 12px 12px 0 0;
+  letter-spacing: 0.5px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+}

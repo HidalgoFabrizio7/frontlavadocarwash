@@ -11,16 +11,19 @@ export class ServicioService {
   private url = `${base_url}/Servicios`;
   private listaCambio = new Subject<Servicio[]>();
   constructor(private http:HttpClient) { }
+  
   list() {
-            return this.http.get<Servicio[]>(`${this.url}`);	
-          }
+    return this.http.get<Servicio[]>(`${this.url}`);	
+  }
+
   insertar(m:Servicio) {
-        return this.http.post(this.url,m);
-      }
+    return this.http.post(this.url,m);
+  }
     
   setList(listaNueva:Servicio[]){
-    return this.http.put(this.url,listaNueva);
+    this.listaCambio.next(listaNueva);
   }
+  
   getLista(){
     return this.listaCambio.asObservable();
   }
@@ -36,6 +39,19 @@ export class ServicioService {
   // Nueva función para obtener el último registro
   obtenerUltimoRegistro() {
     return this.http.get<Servicio>(`${this.url}/ultimoregistro`);
+  }
+  insertarYRegresarId(servicio: Servicio) {
+    return this.http.post<number>(`${this.url}/insertaryregresarid`, servicio);
+  }
+
+  /** Obtiene solo los servicios futuros, ordenados de la más cercana a la más lejana */
+  listarFuturos() {
+    return this.http.get<Servicio[]>(`${this.url}/futuros`);
+  }
+
+  /** Obtiene todos los servicios, ordenados de la más cercana a la más lejana */
+  listarTodosOrdenados() {
+    return this.http.get<Servicio[]>(`${this.url}/todos`);
   }
   
 }

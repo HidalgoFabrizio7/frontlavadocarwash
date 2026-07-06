@@ -1,0 +1,71 @@
+<!-- Contenedor del filtro de etapa + datepicker + imagen -->
+<div class="filtros-container">
+  <div class="filtro-etapa">
+    <!-- Combo de etapa -->
+    <mat-form-field appearance="fill">
+      <mat-label>Filtrar por etapa</mat-label>
+      <mat-select [(value)]="etapaSeleccionada" (selectionChange)="onCambioEtapa()">
+        <mat-option value="lavado">Lavado</mat-option>
+        <mat-option value="Secado">Secado</mat-option>
+        <mat-option value="Por Entregar">Por Entregar</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="filtro-fecha">
+    <!-- Datepicker -->
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de secado</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerGlobal"
+        [(ngModel)]="fechaSecadoGlobal"
+        [min]="minFechaSecado"
+      />
+      <mat-datepicker-toggle matSuffix [for]="pickerGlobal"></mat-datepicker-toggle>
+      <mat-datepicker #pickerGlobal></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="filtro-foto">
+    <!-- Nuevo componente cámara -->
+    <app-camera (photoTaken)="onFotoDespuesCapturada($event)"></app-camera>
+  </div>
+</div>
+
+<!-- Cards de muebles -->
+<div class="cards-container">
+  <mat-card *ngFor="let mueble of paginatedMuebles" class="mueble-card" appearance="outlined">
+    <mat-card-title>{{ mueble.descripcion }}</mat-card-title>
+    <mat-card-content>
+      <p><strong>Etapa actual:</strong> {{ mueble.etapaLavado }}</p>
+      <p><strong>Fecha de secado:</strong> {{ mueble.fechaSecado | date }}</p>
+
+      <!-- Mostrar imágenes "antes" y "después" en horizontal -->
+      <div class="fotos-horizontales" *ngIf="mueble.fotoAntes || mueble.fotoDespues">
+        <div *ngIf="mueble.fotoAntes" class="foto-antes">
+          <p><strong>Foto antes:</strong></p>
+          <img [src]="mueble.fotoAntes" alt="Foto antes" class="img-foto-antes" />
+        </div>
+        <div *ngIf="mueble.fotoDespues" class="foto-despues">
+          <p><strong>Foto después:</strong></p>
+          <img [src]="mueble.fotoDespues" alt="Foto después" class="img-foto-despues" />
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="cambiarEtapa(mueble)">
+        Etapa culminada
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- Paginador -->
+<mat-paginator
+  [length]="listaMuebles.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 20, 40]"
+  (page)="onPageChange($event)"
+  showFirstLastButtons>
+</mat-paginator>

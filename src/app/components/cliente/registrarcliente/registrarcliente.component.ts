@@ -64,7 +64,10 @@ export class RegistrarclienteComponent implements OnInit{
         this.cliente.numeroCelularClientes = this.form.value.numero;
         this.cliente.dniClientes = this.form.value.dni;
         this.cliente.direccionClientes = this.form.value.direccion;
-        this.cliS.insertar(this.cliente).subscribe((data) => {
+        const peticion = this.edicion
+          ? this.cliS.update(this.cliente)
+          : this.cliS.insertar(this.cliente);
+        peticion.subscribe(() => {
           this.cliS.list().subscribe((data) => {
             this.cliS.setList(data);
           });

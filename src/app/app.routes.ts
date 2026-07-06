@@ -9,31 +9,48 @@ import { ServicioComponent } from './components/servicio/servicio.component';
 import { RegistrarservicioComponent } from './components/servicio/registrarservicio/registrarservicio.component';
 import { ListarmuebleComponent } from './components/mueble/listarmueble/listarmueble.component';
 import { RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { EstadosmuebleComponent } from './components/mueble/estadosmueble/estadosmueble.component';
+import { CameraComponent } from './components/camera/camera.component';
+import { LoginComponent } from './components/login/login.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  {
+    {
+      path: 'login',
+      component: LoginComponent
+    },
+
+    {
     path: 'cliente',
     component: ClienteComponent,
+    canActivate: [authGuard],
     children: [
-      { 
-      path: 'nuevocliente', component: RegistrarclienteComponent
+      {
+      path: 'nuevocliente', component: RegistrarclienteComponent,
       },
       {
       path:'edicionescliente/:id',component:RegistrarclienteComponent
       },
     ],
+
+    },
+
+    {
+      path: 'camera',
+      component: CameraComponent,
+      canActivate: [authGuard]
     },
 
     {
     path: 'cobranza',
     component: CobranzaComponent,
+    canActivate: [authGuard],
     children: [
-      { 
+      {
       path: 'nuevocobranza', component: RegistrarcobranzaComponent
       },
       {
-      path:'edicionescobranza/:id',component: RegistrarcobranzaComponent 
+      path:'edicionescobranza/:id',component: RegistrarcobranzaComponent
       }
     ],
     },
@@ -41,12 +58,16 @@ export const routes: Routes = [
     {
     path: 'mueble',
     component: MuebleComponent,
+    canActivate: [authGuard],
     children: [
-      { 
+      {
       path: 'nuevomueble', component: RegistrarmuebleComponent
       },
       {
-      path:'edicion/:id', component: RegistrarmuebleComponent 
+      path:'edicion/:id', component: RegistrarmuebleComponent
+      },
+      {
+        path:'estadomueble', component: EstadosmuebleComponent
       }
     ],
     },
@@ -54,12 +75,13 @@ export const routes: Routes = [
     {
     path: 'servicio',
     component: ServicioComponent,
+    canActivate: [authGuard],
     children: [
-      { 
-      path: 'nuevoservicio', component: RegistrarservicioComponent 
+      {
+      path: 'nuevoservicio', component: RegistrarservicioComponent
       },
       {
-      path:'ediciones/:id',component: RegistrarservicioComponent, 
+      path:'ediciones/:id',component: RegistrarservicioComponent,
       children: [
         {
         path: 'registro', component: RegistrarmuebleComponent,
@@ -87,9 +109,3 @@ export const routes: Routes = [
     },
     */
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

@@ -20,14 +20,17 @@ export class CobranzaService {
     }
   
     setList(listaNueva:Cobranza[]){
-      return this.http.put(this.url,listaNueva);
+      this.listaCambio.next(listaNueva);
     }
+
     getLista(){
       return this.listaCambio.asObservable();
     }
+
     listId(id:number){
       return this.http.get<Cobranza>(`${this.url}/${id}`);
     }
+    
     update(cb:Cobranza){
       return this.http.put(`${this.url}/${cb.idCobranza}`,cb);
     }

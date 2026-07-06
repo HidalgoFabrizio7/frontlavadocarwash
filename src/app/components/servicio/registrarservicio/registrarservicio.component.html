@@ -43,6 +43,32 @@
                 </div>
             </div>
 
+            <!-- Dirección del Servicio -->
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Dirección del servicio</mat-label>
+                    <input matInput placeholder="Ingrese dirección" formControlName="direccionServicio" [readonly]="edicion" />
+                    <mat-error *ngIf="form.get('direccionServicio')?.hasError('required')">
+                        La dirección del servicio es obligatoria.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- Estado del Servicio -->
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Estado del servicio</mat-label>
+                    <mat-select formControlName="estadoServicio" [disabled]="edicion">
+                        <mat-option value="Abierto">Abierto</mat-option>
+                        <mat-option value="En Proceso">En Proceso</mat-option>
+                        <mat-option value="Completado">Completado</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('estadoServicio')?.hasError('required')">
+                        El estado del servicio es obligatorio.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
             <!-- Tipo de Servicio -->
             <div class="form-group">
                 <mat-form-field class="example-full-width">
@@ -62,7 +88,7 @@
             <div class="form-group-group">
                 <div class="form-group">
                     <mat-form-field appearance="fill" class="example-full-width">
-                        <mat-label>Fecha de programación de envío</mat-label>
+                        <mat-label>Fecha conclución de servicio</mat-label>
                         <input
                             matInput
                             placeholder="Ingrese fecha"
@@ -103,8 +129,7 @@
 
             <!-- Botones -->
             <div class="button-group">
-                <button mat-raised-button color="primary" *ngIf="!edicion" (click)="obtenerUltimoIdServicio()">Aceptar</button>
-                <button mat-raised-button color="primary" *ngIf="edicion">Aceptar</button>
+                <button mat-raised-button color="primary">Aceptar</button>
                 <button mat-raised-button color="warn" routerLink="/servicio">
                     <mat-icon>cancel_presentation</mat-icon>
                 </button>
@@ -113,7 +138,7 @@
         </form>
     </div>
 
-    <div class="mueble-container">
+    <div class="mueble-container" *ngIf="edicion">
         <!-- Botón para agregar mueble con routerLink -->
         <button mat-raised-button color="accent" (click)="nuevoMueble = !nuevoMueble">
             <mat-icon>add</mat-icon>
@@ -122,10 +147,9 @@
 
         <app-registrarmueble *ngIf="nuevoMueble"></app-registrarmueble>
 
-
         <!-- Componente para listar muebles (Siempre visible) -->
         <div class="list-mueblecontainer">
-            <app-listarmueble></app-listarmueble>
+            <app-listarmueble ></app-listarmueble>
         </div>
     </div>
 </div>

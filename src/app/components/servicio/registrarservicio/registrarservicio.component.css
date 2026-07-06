@@ -4,6 +4,7 @@
     flex-wrap: wrap;
     gap: 20px;
     align-items: flex-start;
+    justify-content: center; /* Centrar el contenido por defecto */
 }
 
 /* Contenedor del título */

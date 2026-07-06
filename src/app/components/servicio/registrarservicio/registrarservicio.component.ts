@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgIf, AsyncPipe } from '@angular/common';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -34,7 +34,6 @@ import { FormDataService } from '../../../services/form-data.service';
         MatAutocompleteModule,
         CommonModule,
         RouterLink,
-        AsyncPipe,
         RegistrarmuebleComponent,
         ListarmuebleComponent
     ],
@@ -56,6 +55,7 @@ export class RegistrarservicioComponent implements OnInit {
     id: number = 0;
     idLast: number = 0;
     maxFecha: Date = moment().add(0, 'days').toDate();
+    editMuebleId: number | null = null;
 
     constructor(
         private serS: ServicioService,
@@ -63,33 +63,52 @@ export class RegistrarservicioComponent implements OnInit {
         private formBuilder: FormBuilder,
         private cliS: ClienteService,
         public route: ActivatedRoute,
-        private formDataService: FormDataService
+        private formDataService: FormDataService,
+        private renderer: Renderer2,
+        private el: ElementRef
     ) { }
 
     ngOnInit(): void {
+
         this.route.params.subscribe((data: Params) => {
             this.id = data['id'];
+            console.log('modo edicion');
             console.log('ID:', this.id);
             this.edicion = data['id'] != null;
-            this.init();
+            console.log('Edición:', this.edicion);
+
+            this.form = this.formBuilder.group({
+                codigo: [''],
+                cliente: ['', Validators.required],
+                tiposervicio: ['', Validators.required],
+                fechaenvio: ['', Validators.required],
+                fecharecojo: ['', Validators.required],
+                fotoNoObligatoriaServicio: [''],
+                fotoAntesServicio: [''],
+                fotoDespuesServicio: [''],
+                estadoServicio: [''],
+                direccionServicio: ['']
+            });
+
+            if (this.edicion) {
+                this.init();
+            }
         });
 
-        this.form = this.formBuilder.group({
-            codigo: [''],
-            cliente: ['', Validators.required],
-            tiposervicio: ['', Validators.required],
-            fechaenvio: ['', Validators.required],
-            fecharecojo: ['', Validators.required],
-            fotoNoObligatoriaServicio: [''],
-            fotoAntesServicio: [''],
-            fotoDespuesServicio: ['']
+        // Escuchar cambios en el tipo de servicio
+        this.form.get('tiposervicio')?.valueChanges.subscribe((tipo: string) => {
+            if (tipo === 'Servicio en la empresa') { // Cambia este string al que realmente uses en tu mat-option
+                const fechaEnvio = this.form.get('fechaenvio')?.value;
+                this.form.get('fecharecojo')?.setValue(fechaEnvio);
+            }
         });
 
-        // Restaurar datos del formulario si existen
-        const savedFormData = this.formDataService.getFormData();
-        if (savedFormData) {
-            this.form.patchValue(savedFormData);
-        }
+        // También escuchar cambios en la fecha de envío por si la cambia luego de elegir el tipo
+        this.form.get('fechaenvio')?.valueChanges.subscribe((fecha: any) => {
+            if (this.form.get('tiposervicio')?.value === 'Servicio en la empresa') {
+            this.form.get('fecharecojo')?.setValue(fecha);
+            }
+        });
 
         this.cliS.list().subscribe((data) => {
             this.listaClientes = data;
@@ -123,23 +142,9 @@ export class RegistrarservicioComponent implements OnInit {
         const cliente = this.listaClientes.find(c => c.idClientes === idCliente);
         if (cliente) {
             this.form.get('cliente')?.setValue(cliente.nombreCliente);
+            // Pone la dirección del cliente en el campo de dirección del servicio
+            this.form.get('direccionServicio')?.setValue(cliente.direccionClientes);
         }
-    }
-
-    /**
-     * Obtiene el último ID de servicio registrado y navega a la ruta de edición.
-     */
-    obtenerUltimoIdServicio(): void {
-        this.serS.obtenerUltimoRegistro().subscribe((data) => {
-            if (data && data.idServicio) {
-                this.id = data.idServicio;
-                this.idLast = this.id + 1;
-                console.log('Último registro:', this.id);
-                this.router.navigate(['/servicio/ediciones', this.idLast]);
-            } else {
-                console.error('Error: idServicio is undefined in the response data');
-            }
-        });
     }
 
     /**
@@ -161,15 +166,29 @@ export class RegistrarservicioComponent implements OnInit {
             this.servicio.fotoNoObligatoriaServicio = this.form.value.fotoNoObligatoriaServicio;
             this.servicio.fotoAntesServicio = this.form.value.fotoAntesServicio;
             this.servicio.fotoDespuesServicio = this.form.value.fotoDespuesServicio;
+            this.servicio.estadoServicio = this.form.value.estadoServicio;
+            this.servicio.direccionServicio = this.form.value.direccionServicio;
 
             console.log('Datos del servicio a enviar:', this.servicio);
 
-            this.serS.insertar(this.servicio).subscribe((data) => {
-                console.log('Respuesta del servidor:', data);
-                this.serS.list().subscribe((data) => {
-                    this.serS.setList(data);
+            if (this.edicion) {
+                this.serS.update(this.servicio).subscribe(() => {
+                    this.serS.list().subscribe((data) => {
+                        this.serS.setList(data);
+                    });
+                    this.router.navigate(['/servicio/ediciones', this.id]);
                 });
-            });
+            } else {
+                this.serS.insertarYRegresarId(this.servicio).subscribe((data) => {
+                    this.id = data;
+                    console.log('ID retornado del servidor:', this.id);
+                    this.serS.list().subscribe((data) => {
+                        this.serS.setList(data);
+                    });
+                    this.router.navigate(['/servicio/ediciones', this.id]);
+                });
+            }
+
         } else {
             console.log('Formulario inválido, por favor revise los campos.');
         }
@@ -189,20 +208,20 @@ export class RegistrarservicioComponent implements OnInit {
                 }
     
                 this.idClienteTemp = data.cliente?.idClientes ?? 0; // Manejo de null
-                this.form.patchValue({
-                    codigo: data.idServicio,
-                    cliente: data.cliente?.nombreCliente ?? '',  // Manejo de null
-                    tiposervicio: data.tipoDeServicio ?? '',
-                    fechaenvio: data.fechaEnvioServicio ?? '',
-                    fecharecojo: data.fechaRecojoServicio ?? '',
-                    fotoNoObligatoriaServicio: data.fotoNoObligatoriaServicio ?? '',
-                    fotoAntesServicio: data.fotoAntesServicio ?? '',
-                    fotoDespuesServicio: data.fotoDespuesServicio ?? ''
+                console.log('ID Cliente Temporal:', this.idClienteTemp);
+
+                this.form = new FormGroup({
+                    codigo: new FormControl(data.idServicio),
+                    cliente: new FormControl(data.cliente.nombreCliente),  // Manejo de null
+                    tiposervicio: new FormControl(data.tipoDeServicio),
+                    fotoNoObligatoriaServicio: new FormControl(data.fotoNoObligatoriaServicio),
+                    fechaenvio: new FormControl(data.fechaEnvioServicio),
+                    fecharecojo: new FormControl(data.fechaRecojoServicio),
+                    fotoAntesServicio: new FormControl(data.fotoAntesServicio),
+                    fotoDespuesServicio: new FormControl(data.fotoDespuesServicio),
+                    estadoServicio: new FormControl(data.estadoServicio),
+                    direccionServicio: new FormControl(data.direccionServicio)
                 });
-    
-                // Forzar actualización del formulario en la UI
-                this.form.markAsPristine();
-                this.form.updateValueAndValidity();
             });
         }
     }
@@ -215,11 +234,13 @@ export class RegistrarservicioComponent implements OnInit {
         this.router.navigate(['/cliente/nuevocliente']);
     }
 
-    /**
-     * Guarda los datos del formulario antes de mostrar el componente de registro de muebles.
+        /**
+     * Maneja el evento de edición de muebles.
+     * @param id ID del mueble a editar.
      */
-    guardarDatosFormulario(): void {
-        this.formDataService.setFormData(this.form.value);
-        console.log('Guardando datos del formulario:', this.form.value);
+    onEditMueble(id: number): void {
+        this.editMuebleId = id;
+        this.nuevoMueble = true;
     }
+
 }

@@ -37,14 +37,13 @@ export class RegistrarcobranzaComponent implements OnInit{
     cobranza: Cobranza = new Cobranza();
     edicion: boolean = false;
     id: number = 0;
-    maxFecha: Date = moment().add(-1, 'days').toDate();
+    maxFecha: Date = moment().add(0, 'days').toDate();
     listaServicio: Servicio[] = [];
     metodopago: { value: string; viewValue: string }[] = [
       { value: 'yape', viewValue: 'yape' },
       { value: 'plin', viewValue: 'plin' },
       { value: 'transferencia', viewValue: 'transferencia' },
     ];
-    //que sea otra tabla para que se pueda agregar mas items
     constructor(
         private cobS: CobranzaService,
         private router: Router,
@@ -52,18 +51,18 @@ export class RegistrarcobranzaComponent implements OnInit{
         private route:ActivatedRoute,
         private serS: ServicioService,
       ) { }
-    
+
       ngOnInit(): void {
         this.route.params.subscribe((data: Params) => {
           this.id = data['id'];
           this.edicion = data['id'] != null;
+          this.form = this.formBuilder.group({
+            codigo: [''],
+            fechacobro: ['', Validators.required],
+            mediopago: ['', Validators.required],
+            codigoservicio: ['', Validators.required],
+          });
           this.init();
-        });
-        this.form = this.formBuilder.group({
-          codigo: [''],
-          fechacobro: ['', Validators.required],
-          mediopago: ['', Validators.required],
-          codigoservicio: ['', Validators.required],
         });
         this.serS.list().subscribe((data) => {
           this.listaServicio = data;
@@ -72,10 +71,13 @@ export class RegistrarcobranzaComponent implements OnInit{
       aceptar(): void {
         if (this.form.valid) {
           this.cobranza.idCobranza = this.form.value.codigo;
-          this.cobranza.fechaCobro= this.form.value.nombre;
-          this.cobranza.medioPago = this.form.value.apellido;
-          this.cobranza.servicio.idServicio = this.form.value.numero;
-          this.cobS.insertar(this.cobranza).subscribe((data) => {
+          this.cobranza.fechaCobro = this.form.value.fechacobro;
+          this.cobranza.medioPago = this.form.value.mediopago;
+          this.cobranza.servicio.idServicio = this.form.value.codigoservicio;
+          const peticion = this.edicion
+            ? this.cobS.update(this.cobranza)
+            : this.cobS.insertar(this.cobranza);
+          peticion.subscribe(() => {
             this.cobS.list().subscribe((data) => {
               this.cobS.setList(data);
             });
@@ -83,15 +85,15 @@ export class RegistrarcobranzaComponent implements OnInit{
           this.router.navigate(['cobranza']);
         }
       }
-    
+
       init() {
         if (this.edicion) {
           this.cobS.listId(this.id).subscribe((data) => {
             this.form = new FormGroup({
               codigo: new FormControl(data.idCobranza),
-              nombre: new FormControl(data.fechaCobro),
-              apellido: new FormControl(data.medioPago),
-              numero: new FormControl(data.servicio.idServicio),
+              fechacobro: new FormControl(data.fechaCobro),
+              mediopago: new FormControl(data.medioPago),
+              codigoservicio: new FormControl(data.servicio.idServicio),
             });
           });
         }
