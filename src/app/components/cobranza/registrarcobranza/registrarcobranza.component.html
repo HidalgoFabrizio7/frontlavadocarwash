@@ -15,19 +15,19 @@
             {{ c.cliente.nombreCliente}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="form.get('cliente')?.hasError('required')"
+        <mat-error *ngIf="form.get('codigoservicio')?.hasError('required')"
           >El registro del servicio es obligatorio.</mat-error
         >
       </mat-form-field>
       <br/>
       <mat-form-field class="example-full-width">
         <mat-label>Método de Pago</mat-label>
-        <mat-select formControlName="tiposervicio">
+        <mat-select formControlName="mediopago">
           <mat-option *ngFor="let g of metodopago" [value]="g.value">
             {{ g.viewValue }}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="form.get('tiposervicio')?.hasError('required')"
+        <mat-error *ngIf="form.get('mediopago')?.hasError('required')"
           >El metodo de pagó es obligatorio.</mat-error
         >
       </mat-form-field>
@@ -38,8 +38,8 @@
           matInput
           placeholder="Ingrese fecha"
           [matDatepicker]="picker"
-          formControlName="fechapago"
-          [max]="maxFecha"
+          formControlName="fechacobro"
+          [min]="maxFecha"
         />
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle
@@ -47,7 +47,7 @@
           [for]="picker"
         ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="form.get('fecha')?.hasError('required')"
+        <mat-error *ngIf="form.get('fechacobro')?.hasError('required')"
           >La fecha es obligatoria.</mat-error
         >
       </mat-form-field>

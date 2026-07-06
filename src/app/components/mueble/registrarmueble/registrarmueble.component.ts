@@ -56,7 +56,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
   idServicio: number = 0;
   base64String: string | null = null;
   base64String2: string | null = null;
-  maxFecha: Date = moment().add(-1, 'days').toDate();
+  maxFecha: Date = moment().add(0, 'days').toDate();
 
   constructor(
       private muS: MuebleService,
@@ -156,7 +156,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
   initializeForm(): void {
     this.form = this.formBuilder.group({
       codigo: [''],
-      codigoservicio: [''],
+      codigoservicio: ['', Validators.required],
       etapaservicio: ['', Validators.required],
       fechaenvio: ['', Validators.required],
       fotoAntes: [''],
@@ -213,7 +213,10 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
       this.mueble.fotoDespues = this.form.value.fotoDespues;
       this.mueble.servicio.idServicio = this.form.value.codigoservicio;
       console.log('Datos del servicio a enviar:', this.mueble);
-      this.muS.insertar(this.mueble).subscribe((data) => {
+      const peticion = this.edicion
+        ? this.muS.update(this.mueble)
+        : this.muS.insertar(this.mueble);
+      peticion.subscribe(() => {
         this.muS.list().subscribe((data) => {
           this.muS.setList(data);
         });

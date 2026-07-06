@@ -28,9 +28,6 @@ export class ListarcobranzaComponent implements OnInit{
       'tiposervicio',
       'foto1',
       'foto2',
-      'foto3', 
-      'fechaenvio',
-      'fecharecojo',
       'accion01',
       'accion02'
     ];

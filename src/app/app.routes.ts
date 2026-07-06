@@ -11,13 +11,21 @@ import { ListarmuebleComponent } from './components/mueble/listarmueble/listarmu
 import { RouterModule } from '@angular/router';
 import { EstadosmuebleComponent } from './components/mueble/estadosmueble/estadosmueble.component';
 import { CameraComponent } from './components/camera/camera.component';
+import { LoginComponent } from './components/login/login.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {
+      path: 'login',
+      component: LoginComponent
+    },
+
+    {
     path: 'cliente',
     component: ClienteComponent,
+    canActivate: [authGuard],
     children: [
-      { 
+      {
       path: 'nuevocliente', component: RegistrarclienteComponent,
       },
       {
@@ -29,18 +37,20 @@ export const routes: Routes = [
 
     {
       path: 'camera',
-      component: CameraComponent
+      component: CameraComponent,
+      canActivate: [authGuard]
     },
 
     {
     path: 'cobranza',
     component: CobranzaComponent,
+    canActivate: [authGuard],
     children: [
-      { 
+      {
       path: 'nuevocobranza', component: RegistrarcobranzaComponent
       },
       {
-      path:'edicionescobranza/:id',component: RegistrarcobranzaComponent 
+      path:'edicionescobranza/:id',component: RegistrarcobranzaComponent
       }
     ],
     },
@@ -48,15 +58,16 @@ export const routes: Routes = [
     {
     path: 'mueble',
     component: MuebleComponent,
+    canActivate: [authGuard],
     children: [
-      { 
+      {
       path: 'nuevomueble', component: RegistrarmuebleComponent
       },
       {
-      path:'edicion/:id', component: RegistrarmuebleComponent 
+      path:'edicion/:id', component: RegistrarmuebleComponent
       },
       {
-        path:'estadomueble', component: EstadosmuebleComponent 
+        path:'estadomueble', component: EstadosmuebleComponent
       }
     ],
     },
@@ -64,12 +75,13 @@ export const routes: Routes = [
     {
     path: 'servicio',
     component: ServicioComponent,
+    canActivate: [authGuard],
     children: [
-      { 
-      path: 'nuevoservicio', component: RegistrarservicioComponent 
+      {
+      path: 'nuevoservicio', component: RegistrarservicioComponent
       },
       {
-      path:'ediciones/:id',component: RegistrarservicioComponent, 
+      path:'ediciones/:id',component: RegistrarservicioComponent,
       children: [
         {
         path: 'registro', component: RegistrarmuebleComponent,

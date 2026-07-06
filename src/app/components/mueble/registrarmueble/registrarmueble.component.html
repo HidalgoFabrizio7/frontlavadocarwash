@@ -14,8 +14,8 @@
       </div>
 
       <!-- Código de servicio -->
-      <div class="form-group" *ngIf="edicion">
-          <mat-form-field class="example-full-width" *ngIf="edicion">
+      <div class="form-group" *ngIf="edicion || !idServicio">
+          <mat-form-field class="example-full-width">
               <mat-label>Código de servicio</mat-label >
               <mat-select formControlName="codigoservicio">
                   <mat-option *ngFor="let c of listaServicio" [value]="c.idServicio">

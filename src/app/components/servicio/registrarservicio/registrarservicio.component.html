@@ -106,7 +106,7 @@
                     </mat-form-field>
                 </div>
                 
-                <div class="form-group" *ngIf="form.get('tiposervicio')?.value === 'Servicio en la empresa'">
+                <div class="form-group">
                     <mat-form-field appearance="fill" class="example-full-width">
                         <mat-label>Fecha de recojo de envío</mat-label>
                         <input
@@ -129,7 +129,7 @@
 
             <!-- Botones -->
             <div class="button-group">
-                <button mat-raised-button color="primary" *ngIf="!edicion">Aceptar</button>
+                <button mat-raised-button color="primary">Aceptar</button>
                 <button mat-raised-button color="warn" routerLink="/servicio">
                     <mat-icon>cancel_presentation</mat-icon>
                 </button>

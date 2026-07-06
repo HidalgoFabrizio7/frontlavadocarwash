@@ -171,14 +171,23 @@ export class RegistrarservicioComponent implements OnInit {
 
             console.log('Datos del servicio a enviar:', this.servicio);
 
-            this.serS.insertarYRegresarId(this.servicio).subscribe((data) => {
-                this.id = data;
-                console.log('ID retornado del servidor:', this.id);
-                this.serS.list().subscribe((data) => {
-                    this.serS.setList(data);
+            if (this.edicion) {
+                this.serS.update(this.servicio).subscribe(() => {
+                    this.serS.list().subscribe((data) => {
+                        this.serS.setList(data);
+                    });
+                    this.router.navigate(['/servicio/ediciones', this.id]);
                 });
-                this.router.navigate(['/servicio/ediciones', this.id]);
-            });
+            } else {
+                this.serS.insertarYRegresarId(this.servicio).subscribe((data) => {
+                    this.id = data;
+                    console.log('ID retornado del servidor:', this.id);
+                    this.serS.list().subscribe((data) => {
+                        this.serS.setList(data);
+                    });
+                    this.router.navigate(['/servicio/ediciones', this.id]);
+                });
+            }
 
         } else {
             console.log('Formulario inválido, por favor revise los campos.');

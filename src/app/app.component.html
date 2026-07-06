@@ -9,7 +9,7 @@
     </div>
 
     <!-- Navegación principal (solo escritorio/tablet) -->
-    <nav class="main-nav">
+    <nav class="main-nav" *ngIf="isLoggedIn">
       <div class="buttons-container">
         <button mat-button class="menu-btn menu-cliente" [matMenuTriggerFor]="menuCliente">
           <mat-icon>healing</mat-icon> Cliente
@@ -23,11 +23,15 @@
         <button mat-button class="menu-btn menu-servicio" [matMenuTriggerFor]="menuServicio">
           <mat-icon>people</mat-icon> Servicio
         </button>
+        <button mat-button class="menu-btn menu-logout" (click)="cerrarSesion()">
+          <mat-icon>logout</mat-icon> Salir
+        </button>
       </div>
     </nav>
 
     <!-- Botón hamburguesa SIEMPRE presente, cambia a X en móvil -->
     <button
+      *ngIf="isLoggedIn"
       class="hamburger-menu"
       mat-icon-button
       aria-label="Abrir menú"
@@ -38,7 +42,7 @@
 </mat-toolbar>
 
 <!-- Menú móvil desplegable (drawer), SIEMPRE cerrable -->
-<nav *ngIf="showMobileMenu" class="mobile-menu" role="navigation" aria-label="Menú móvil">
+<nav *ngIf="showMobileMenu && isLoggedIn" class="mobile-menu" role="navigation" aria-label="Menú móvil">
   <button class="close-mobile-menu" mat-icon-button aria-label="Cerrar menú" (click)="closeMobileMenu()">
     <mat-icon>close</mat-icon>
   </button>
@@ -131,6 +135,12 @@
           </button>
         </li>
       </ul>
+    </li>
+    <!-- Cerrar sesión -->
+    <li>
+      <button mat-button class="mobile-menu-btn" (click)="cerrarSesion()">
+        <mat-icon>logout</mat-icon> Salir
+      </button>
     </li>
   </ul>
 </nav>
