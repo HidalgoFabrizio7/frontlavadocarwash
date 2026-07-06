@@ -12,7 +12,10 @@ import { RouterModule } from '@angular/router';
 import { EstadosmuebleComponent } from './components/mueble/estadosmueble/estadosmueble.component';
 import { CameraComponent } from './components/camera/camera.component';
 import { LoginComponent } from './components/login/login.component';
+import { RecojosycierreComponent } from './components/servicio/recojosycierre/recojosycierre.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
     {
@@ -39,6 +42,12 @@ export const routes: Routes = [
       path: 'camera',
       component: CameraComponent,
       canActivate: [authGuard]
+    },
+
+    {
+      path: 'dashboard',
+      component: DashboardComponent,
+      canActivate: [authGuard, roleGuard(['ADMIN','SUPERVISOR'])]
     },
 
     {
@@ -90,6 +99,9 @@ export const routes: Routes = [
         path: 'listamueblesbserv', component: ListarmuebleComponent,
         }
       ]
+      },
+      {
+      path: 'recojos', component: RecojosycierreComponent, canActivate: [authGuard, roleGuard(['ADMIN','EMPLEADO'])]
       },
 
     ],

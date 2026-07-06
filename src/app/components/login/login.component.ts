@@ -45,7 +45,14 @@ export class LoginComponent {
     this.authS.login(username, password).subscribe({
       next: () => {
         this.cargando = false;
-        this.router.navigate(['/cliente']);
+        const rol = this.authS.getRole();
+        if (rol === 'EMPLEADO') {
+          this.router.navigate(['/servicio/recojos']);
+        } else if (rol === 'SUPERVISOR') {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/servicio']); // ADMIN / VENTAS
+        }
       },
       error: () => {
         this.cargando = false;

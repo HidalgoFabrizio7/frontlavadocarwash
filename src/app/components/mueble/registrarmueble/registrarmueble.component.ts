@@ -47,6 +47,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
   etapaservicio: { value: string; viewValue: string }[] = [
     { value: 'lavado', viewValue: 'lavado' },
     { value: 'Secado', viewValue: 'Secado' },
+    { value: 'Por Entregar', viewValue: 'Por Entregar' },
   ];
   descripcionControl = new FormControl('');
   filteredDescripciones: Observable<string[]> = of([]);
@@ -54,6 +55,8 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
   edicion: boolean = false;
   id: number = 0;
   idServicio: number = 0;
+  servicioPadre: Servicio | null = null;
+  esDomicilio = false;
   base64String: string | null = null;
   base64String2: string | null = null;
   maxFecha: Date = moment().add(0, 'days').toDate();
@@ -105,9 +108,19 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
       this.serS.list().subscribe((data) => {
         this.listaServicio = data;
       });
-      if (this.idServicio !== 0) {
+      if (this.idServicio) {
         this.form.patchValue({
           codigoservicio: this.idServicio,
+        });
+        this.serS.listId(this.idServicio).subscribe(s => {
+          this.servicioPadre = s;
+          this.esDomicilio = s.tipoDeServicio === 'Servicio en domicilio';
+          if (!this.edicion && this.esDomicilio) {
+            this.form.patchValue({
+              etapaservicio: 'Por Entregar',
+              fechaenvio: s.fechaRecojoServicio
+            });
+          }
         });
       }
 

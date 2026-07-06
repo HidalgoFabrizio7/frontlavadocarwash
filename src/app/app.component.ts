@@ -32,6 +32,22 @@ export class AppComponent {
     return this.authS.isLoggedIn();
   }
 
+  get esAdmin(): boolean {
+    return this.authS.hasRole('ADMIN');
+  }
+
+  get esVentas(): boolean {
+    return this.authS.hasRole('VENTAS');
+  }
+
+  get esEmpleado(): boolean {
+    return this.authS.hasRole('EMPLEADO');
+  }
+
+  get esSupervisor(): boolean {
+    return this.authS.hasRole('SUPERVISOR');
+  }
+
   toggleMobileMenu() {
     this.showMobileMenu = !this.showMobileMenu;
     this.mobileSubMenu = null; // opcional: cerrar submenús al cerrar

@@ -10,6 +10,7 @@ import { Servicio } from '../../../models/Servicio';
 import { After } from 'v8';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 @Component({
     selector: 'app-listarservicio',
     imports: [
@@ -35,7 +36,7 @@ export class ListarservicioComponent implements OnInit {
   pageSize = 5;
   pageIndex = 0;
 
-  constructor(private sS: ServicioService) { }
+  constructor(private sS: ServicioService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.sS.listarTodosOrdenados().subscribe((data) => {
