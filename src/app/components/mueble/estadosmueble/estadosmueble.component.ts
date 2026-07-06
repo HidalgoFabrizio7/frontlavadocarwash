@@ -63,7 +63,8 @@ export class EstadosmuebleComponent implements OnInit {
   cargarMueblesPorEtapa(): void {
     this.muebleService.list().subscribe((data: Mueble[]) => {
       const filtrados = data
-        .filter(m => m.etapaLavado?.toLowerCase() === this.etapaSeleccionada.toLowerCase())
+        .filter(m => m.etapaLavado?.toLowerCase() === this.etapaSeleccionada.toLowerCase()
+                  && m.servicio?.tipoDeServicio !== 'Servicio en domicilio')
         .map(m => ({
           ...m,
           fechaSecado: m.fechaSecado ? new Date(m.fechaSecado) : new Date() // ⚠️ valor por defecto si viene vacío

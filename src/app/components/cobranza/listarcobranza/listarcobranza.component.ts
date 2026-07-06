@@ -7,6 +7,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { Cobranza } from '../../../models/Cobranza';
 import { CobranzaService } from '../../../services/cobranza.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-listarcobranza',
@@ -32,7 +33,7 @@ export class ListarcobranzaComponent implements OnInit{
       'accion02'
     ];
     @ViewChild(MatPaginator) paginator!: MatPaginator;
-    constructor(private coS:CobranzaService){}
+    constructor(private coS:CobranzaService, public authService: AuthService){}
   
   
     ngOnInit(): void {

@@ -1,1 +1,38 @@
-<p>recojosycierre works!</p>
+<div class="container">
+  <div class="title-container">
+    <h2 class="title">Servicios pendientes de recojo</h2>
+  </div>
+
+  <div class="filter-container">
+    <button mat-raised-button color="primary" (click)="toggleSoloHoy()">
+      <mat-icon>{{ soloHoy ? 'event_available' : 'today' }}</mat-icon>
+      {{ soloHoy ? 'Ver todos' : 'Ver solo hoy' }}
+    </button>
+  </div>
+
+  <div class="card-grid">
+    <mat-card class="servicio-card" *ngFor="let element of pagedServicios">
+      <mat-card-header>
+        <div mat-card-avatar class="card-avatar">
+          <mat-icon>local_shipping</mat-icon>
+        </div>
+        <mat-card-title>{{ element.cliente.nombreCliente }}</mat-card-title>
+        <mat-card-subtitle>{{ element.tipoDeServicio }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Dirección:</strong> {{ element.direccionServicio }}</p>
+        <p><strong>Fecha Recojo:</strong> {{ element.fechaRecojoServicio | date }}</p>
+        <p><strong>Estado:</strong> {{ element.estadoServicio }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-paginator
+    [length]="serviciosFiltrados.length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

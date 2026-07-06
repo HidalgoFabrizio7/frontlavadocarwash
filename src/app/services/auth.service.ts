@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
 
 interface JwtResponse {
@@ -14,6 +15,8 @@ const base_url = environment.base;
   providedIn: 'root'
 })
 export class AuthService {
+  private jwtHelper = new JwtHelperService();
+
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<JwtResponse> {
@@ -37,6 +40,20 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  getRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      return this.jwtHelper.decodeToken(token)?.role ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  hasRole(rol: string): boolean {
+    return this.getRole() === rol;
   }
 
   private setToken(token: string): void {

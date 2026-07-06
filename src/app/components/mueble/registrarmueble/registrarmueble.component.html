@@ -91,8 +91,8 @@
           </div>
       </div>
 
-        <!-- Imagen Antes -->
-        <div class="form-group">
+        <!-- Imagen Después -->
+        <div class="form-group" *ngIf="!esDomicilio">
             <label class="image-label">Foto Despues</label>
             <div class="image-upload">
                 <input type="file" name="file" (change)="onFileChange2($event)" />

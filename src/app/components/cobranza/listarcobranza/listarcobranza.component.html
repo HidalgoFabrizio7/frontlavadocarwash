@@ -31,6 +31,7 @@
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let element">
           <button
+            *ngIf="!authService.hasRole('SUPERVISOR')"
             mat-raised-button
             color="warn"
             [routerLink]="['edicionescobranza', element.idCobranza]"
@@ -42,6 +43,7 @@
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let element">
           <button
+            *ngIf="!authService.hasRole('SUPERVISOR')"
             mat-raised-button
             color="warn"
             (click)="eliminar(element.idCobranza)"

@@ -86,7 +86,7 @@ export class RegistrarservicioComponent implements OnInit {
                 fotoNoObligatoriaServicio: [''],
                 fotoAntesServicio: [''],
                 fotoDespuesServicio: [''],
-                estadoServicio: [''],
+                estadoServicio: ['Abierto'],
                 direccionServicio: ['']
             });
 
@@ -97,7 +97,10 @@ export class RegistrarservicioComponent implements OnInit {
 
         // Escuchar cambios en el tipo de servicio
         this.form.get('tiposervicio')?.valueChanges.subscribe((tipo: string) => {
-            if (tipo === 'Servicio en la empresa') { // Cambia este string al que realmente uses en tu mat-option
+            if (tipo === 'Servicio en domicilio') {
+                if (!this.form.get('fechaenvio')?.value) {
+                    this.form.get('fechaenvio')?.setValue(moment().toDate());
+                }
                 const fechaEnvio = this.form.get('fechaenvio')?.value;
                 this.form.get('fecharecojo')?.setValue(fechaEnvio);
             }
@@ -105,7 +108,7 @@ export class RegistrarservicioComponent implements OnInit {
 
         // También escuchar cambios en la fecha de envío por si la cambia luego de elegir el tipo
         this.form.get('fechaenvio')?.valueChanges.subscribe((fecha: any) => {
-            if (this.form.get('tiposervicio')?.value === 'Servicio en la empresa') {
+            if (this.form.get('tiposervicio')?.value === 'Servicio en domicilio') {
             this.form.get('fecharecojo')?.setValue(fecha);
             }
         });

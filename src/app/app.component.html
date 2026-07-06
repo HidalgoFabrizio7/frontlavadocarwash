@@ -11,17 +11,29 @@
     <!-- Navegación principal (solo escritorio/tablet) -->
     <nav class="main-nav" *ngIf="isLoggedIn">
       <div class="buttons-container">
-        <button mat-button class="menu-btn menu-cliente" [matMenuTriggerFor]="menuCliente">
+        <button *ngIf="esAdmin || esVentas" mat-button class="menu-btn menu-cliente" [matMenuTriggerFor]="menuCliente">
           <mat-icon>healing</mat-icon> Cliente
         </button>
-        <button mat-button class="menu-btn menu-cobranza" [matMenuTriggerFor]="menuCobranza">
+        <button *ngIf="esAdmin || esVentas" mat-button class="menu-btn menu-cobranza" [matMenuTriggerFor]="menuCobranza">
           <mat-icon>medication</mat-icon> Cobranza
         </button>
-        <button mat-button class="menu-btn menu-mueble" [matMenuTriggerFor]="menuMueble">
+        <button *ngIf="esSupervisor" mat-button class="menu-btn menu-cobranza" routerLink="/cobranza">
+          <mat-icon>medication</mat-icon> Cobranza
+        </button>
+        <button *ngIf="esAdmin || esVentas" mat-button class="menu-btn menu-mueble" [matMenuTriggerFor]="menuMueble">
           <mat-icon>restaurant</mat-icon> Mueble
         </button>
-        <button mat-button class="menu-btn menu-servicio" [matMenuTriggerFor]="menuServicio">
+        <button *ngIf="esEmpleado" mat-button class="menu-btn menu-mueble" routerLink="/mueble/estadomueble">
+          <mat-icon>restaurant</mat-icon> Seguimiento
+        </button>
+        <button *ngIf="esAdmin || esVentas" mat-button class="menu-btn menu-servicio" [matMenuTriggerFor]="menuServicio">
           <mat-icon>people</mat-icon> Servicio
+        </button>
+        <button *ngIf="esEmpleado" mat-button class="menu-btn menu-servicio" routerLink="/servicio/recojos">
+          <mat-icon>local_shipping</mat-icon> Recojos
+        </button>
+        <button *ngIf="esAdmin || esSupervisor" mat-button class="menu-btn menu-dashboard" routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon> Dashboard
         </button>
         <button mat-button class="menu-btn menu-logout" (click)="cerrarSesion()">
           <mat-icon>logout</mat-icon> Salir
@@ -48,7 +60,7 @@
   </button>
   <ul class="mobile-menu-list">
     <!-- Menú Cliente -->
-    <li>
+    <li *ngIf="esAdmin || esVentas">
       <button mat-button class="mobile-menu-btn"
         (click)="mobileSubMenu = (mobileSubMenu === 'cliente' ? null : 'cliente')"
         [attr.aria-expanded]="mobileSubMenu === 'cliente'">
@@ -69,7 +81,7 @@
       </ul>
     </li>
     <!-- Menú Cobranza -->
-    <li>
+    <li *ngIf="esAdmin || esVentas">
       <button mat-button class="mobile-menu-btn"
         (click)="mobileSubMenu = (mobileSubMenu === 'cobranza' ? null : 'cobranza')"
         [attr.aria-expanded]="mobileSubMenu === 'cobranza'">
@@ -89,8 +101,14 @@
         </li>
       </ul>
     </li>
+    <!-- Cobranza de solo lectura (Supervisor) -->
+    <li *ngIf="esSupervisor">
+      <button mat-button class="mobile-menu-btn" routerLink="/cobranza" (click)="closeMobileMenu()">
+        <mat-icon>medication</mat-icon> Cobranza
+      </button>
+    </li>
     <!-- Menú Mueble -->
-    <li>
+    <li *ngIf="esAdmin || esVentas">
       <button mat-button class="mobile-menu-btn"
         (click)="mobileSubMenu = (mobileSubMenu === 'mueble' ? null : 'mueble')"
         [attr.aria-expanded]="mobileSubMenu === 'mueble'">
@@ -115,8 +133,14 @@
         </li>
       </ul>
     </li>
+    <!-- Seguimiento de Mueble (Empleado) -->
+    <li *ngIf="esEmpleado">
+      <button mat-button class="mobile-menu-btn" routerLink="/mueble/estadomueble" (click)="closeMobileMenu()">
+        <mat-icon>restaurant</mat-icon> Seguimiento
+      </button>
+    </li>
     <!-- Menú Servicio -->
-    <li>
+    <li *ngIf="esAdmin || esVentas">
       <button mat-button class="mobile-menu-btn"
         (click)="mobileSubMenu = (mobileSubMenu === 'servicio' ? null : 'servicio')"
         [attr.aria-expanded]="mobileSubMenu === 'servicio'">
@@ -134,7 +158,24 @@
             <mat-icon>add</mat-icon> Registrar
           </button>
         </li>
+        <li *ngIf="esAdmin">
+          <button mat-button routerLink="/servicio/recojos" (click)="closeMobileMenu()">
+            <mat-icon>local_shipping</mat-icon> Recojos
+          </button>
+        </li>
       </ul>
+    </li>
+    <!-- Recojos (Empleado) -->
+    <li *ngIf="esEmpleado">
+      <button mat-button class="mobile-menu-btn" routerLink="/servicio/recojos" (click)="closeMobileMenu()">
+        <mat-icon>local_shipping</mat-icon> Recojos
+      </button>
+    </li>
+    <!-- Dashboard -->
+    <li *ngIf="esAdmin || esSupervisor">
+      <button mat-button class="mobile-menu-btn" routerLink="/dashboard" (click)="closeMobileMenu()">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </button>
     </li>
     <!-- Cerrar sesión -->
     <li>
@@ -182,6 +223,9 @@
   </button>
   <button mat-menu-item routerLink="/servicio/nuevoservicio" class="menu-item">
     <mat-icon>add</mat-icon> Registrar
+  </button>
+  <button *ngIf="esAdmin" mat-menu-item routerLink="/servicio/recojos" class="menu-item">
+    <mat-icon>local_shipping</mat-icon> Recojos
   </button>
 </mat-menu>
 
