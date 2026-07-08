@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashS.getIngresos().subscribe(data => this.ingresos = data.total);
-    this.dashS.getServiciosEnCola().subscribe(data => this.serviciosEnCola = data.total);
+    this.dashS.getServiciosEnCola().subscribe(data => this.serviciosEnCola = data);
 
     this.dashS.getFlujoServicios().subscribe(data => {
       this.lineChartData = {
@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
 
     this.dashS.getTopCliente().subscribe(data => {
       this.topClienteChartData = {
-        labels: data.map(d => d.nombre),
+        labels: data.map(d => `${d.nombreCliente} ${d.apellidoClientes}`),
         datasets: [{ data: data.map(d => d.cantidad), label: 'Top Clientes', backgroundColor: COLOR_ACCENT }]
       };
     });

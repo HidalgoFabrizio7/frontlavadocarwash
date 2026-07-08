@@ -59,7 +59,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
   esDomicilio = false;
   base64String: string | null = null;
   base64String2: string | null = null;
-  maxFecha: Date = moment().add(0, 'days').toDate();
+  minFecha: Date = moment().add(0, 'days').toDate();
 
   constructor(
       private muS: MuebleService,
@@ -118,7 +118,7 @@ export class RegistrarmuebleComponent implements OnInit, OnChanges {
           if (!this.edicion && this.esDomicilio) {
             this.form.patchValue({
               etapaservicio: 'Por Entregar',
-              fechaenvio: s.fechaRecojoServicio
+              fechaenvio: moment(s.fechaRecojoServicio).toDate()
             });
           }
         });

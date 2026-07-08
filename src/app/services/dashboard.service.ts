@@ -8,10 +8,6 @@ export interface IngresosDTO {
   total: number;
 }
 
-export interface ServiciosEnColaDTO {
-  total: number;
-}
-
 export interface FlujoServiciosDTO {
   fecha: string;
   cantidad: number;
@@ -23,13 +19,15 @@ export interface TopMuebleDTO {
 }
 
 export interface TopClienteDTO {
-  nombre: string;
+  idCliente: number;
+  nombreCliente: string;
+  apellidoClientes: string;
   cantidad: number;
 }
 
 export interface TiempoProcesoDTO {
   tipoDeServicio: string;
-  diasPromedio: number;
+  promedioDias: number;
 }
 
 @Injectable({
@@ -45,7 +43,7 @@ export class DashboardService {
   }
 
   getServiciosEnCola() {
-    return this.http.get<ServiciosEnColaDTO>(`${this.url}/servicios-en-cola`);
+    return this.http.get<number>(`${this.url}/servicios-en-cola`);
   }
 
   getFlujoServicios() {

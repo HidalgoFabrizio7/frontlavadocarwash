@@ -69,7 +69,7 @@
                   placeholder="Ingrese fecha"
                   [matDatepicker]="picker"
                   formControlName="fechaenvio"
-                  [max]="maxFecha"
+                  [min]="minFecha"
               />
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>

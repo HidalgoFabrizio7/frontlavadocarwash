@@ -218,8 +218,8 @@ export class RegistrarservicioComponent implements OnInit {
                     cliente: new FormControl(data.cliente.nombreCliente),  // Manejo de null
                     tiposervicio: new FormControl(data.tipoDeServicio),
                     fotoNoObligatoriaServicio: new FormControl(data.fotoNoObligatoriaServicio),
-                    fechaenvio: new FormControl(data.fechaEnvioServicio),
-                    fecharecojo: new FormControl(data.fechaRecojoServicio),
+                    fechaenvio: new FormControl(moment(data.fechaEnvioServicio).toDate()),
+                    fecharecojo: new FormControl(moment(data.fechaRecojoServicio).toDate()),
                     fotoAntesServicio: new FormControl(data.fotoAntesServicio),
                     fotoDespuesServicio: new FormControl(data.fotoDespuesServicio),
                     estadoServicio: new FormControl(data.estadoServicio),
